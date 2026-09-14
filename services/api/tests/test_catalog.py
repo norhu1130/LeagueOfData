@@ -12,6 +12,7 @@ from lod_api.catalog import Catalog, load_catalog, verify_against_schema
 from lod_api.compile.planner import PlanBuilder, PlanError
 from lod_data.duckdb_views import register_views
 from lod_data.synth.writer import write_dataset
+from pydantic import SecretStr
 
 REFERENCE = Path(__file__).resolve().parents[3] / "data" / "reference" / "catalog.json"
 
@@ -99,6 +100,7 @@ class TestLoader:
         monkeypatch.setattr(catalog_router, "dataset_source", lambda: None)
         monkeypatch.setattr(catalog_router, "load_catalog", lambda: catalog)
         monkeypatch.setattr(runtime_profile, "_public_instance", True)
+        monkeypatch.setattr(catalog_router.settings, "openrouter_api_key", None)
 
         response = Response()
         public_body = catalog_router.get_catalog(response)
@@ -109,6 +111,13 @@ class TestLoader:
         assert "sqlBinding" not in public_body["events"]["first_blood"]
         assert "sql" not in public_body["contextFields"]["time"]
         assert "sql" not in public_body["subjectFields"]["kills"]
+        assert public_body["instanceCapabilities"]["ai"] is False
+
+        monkeypatch.setattr(
+            catalog_router.settings, "openrouter_api_key", SecretStr("sk-or-v1-demo")
+        )
+        configured_public_body = catalog_router.get_catalog(Response())
+        assert configured_public_body["instanceCapabilities"]["ai"] is True
 
         monkeypatch.setattr(runtime_profile, "_public_instance", False)
         local_body = catalog_router.get_catalog(Response())

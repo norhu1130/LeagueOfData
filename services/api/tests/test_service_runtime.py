@@ -93,7 +93,6 @@ def test_public_instance_blocks_management_and_diagnostics(monkeypatch) -> None:
     for path in (
         "/docs",
         "/openapi.json",
-        "/api/v1/ai/status",
         "/api/v1/data-sources",
         "/api/v1/catalog/health",
         "/api/v1/runs/not-a-run/explain",
@@ -101,6 +100,12 @@ def test_public_instance_blocks_management_and_diagnostics(monkeypatch) -> None:
         "/api/v1/matches/KR_1?runId=not-a-run",
     ):
         assert client.get(path).status_code == 404
+
+    assert client.get("/api/v1/ai/status").status_code == 200
+    assert (
+        client.put("/api/v1/ai/config", json={"api_key": "sk-or-v1-visitor-key"}).status_code == 404
+    )
+    assert client.delete("/api/v1/ai/config").status_code == 404
 
     health = client.get("/healthz")
     assert health.json() == {"status": "ok"}
@@ -115,6 +120,9 @@ def test_public_api_allowlist_is_fail_closed() -> None:
     assert allowed("GET", "/api/v1/catalog") is True
     assert allowed("POST", "/api/v1/analyses/bias-audit") is True
     assert allowed("POST", "/api/v1/analyses/run") is True
+    assert allowed("GET", "/api/v1/ai/status") is True
+    assert allowed("POST", "/api/v1/ai/dsl") is True
+    assert allowed("POST", "/api/v1/ai/interpret") is True
     assert allowed("GET", f"/api/v1/runs/{'a' * 32}") is True
     assert allowed("GET", f"/api/v1/runs/{'a' * 32}/events") is True
     assert allowed("DELETE", f"/api/v1/runs/{'a' * 32}") is True
@@ -124,7 +132,8 @@ def test_public_api_allowlist_is_fail_closed() -> None:
     assert allowed("GET", "/readyz") is True
 
     assert allowed("GET", "/api/v1/future-sensitive-endpoint") is False
-    assert allowed("GET", "/api/v1/ai/status") is False
+    assert allowed("PUT", "/api/v1/ai/config") is False
+    assert allowed("DELETE", "/api/v1/ai/config") is False
     assert allowed("GET", f"/api/v1/runs/{'a' * 32}/explain") is False
     assert allowed("DELETE", f"/api/v1/runs/{'a' * 32}/events") is False
     assert allowed("GET", "/metrics") is False

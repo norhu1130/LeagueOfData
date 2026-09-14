@@ -36,7 +36,9 @@ def get_catalog(response: Response) -> dict[str, Any]:
     data.setdefault("sourceCapabilities", {"events": {}, "contexts": {}})
     data["instanceCapabilities"] = {
         "publicInstance": settings.public_instance,
-        "ai": not settings.public_instance,
+        # Public visitors may use only the server-owned, spending-limited key. Session key
+        # configuration remains outside the public route allowlist.
+        "ai": not settings.public_instance or settings.openrouter_api_key is not None,
         "dataSourceManagement": not settings.public_instance,
         "matchDrilldown": not settings.public_instance,
         "diagnostics": not settings.public_instance,

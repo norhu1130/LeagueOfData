@@ -63,6 +63,8 @@ pnpm public
 Place an HTTPS reverse proxy or Cloudflare Tunnel in front of this loopback-only service. The
 public profile disables administrative and sensitive endpoints, applies conservative resource
 limits, and is not a replacement for authentication when access should be restricted.
+Set `LOD_OPENROUTER_API_KEY` to expose AI drafting and interpretation with the server-owned key;
+visitor key configuration stays disabled. Use a dedicated OpenRouter key with a spending limit.
 
 ## Riot data
 

@@ -17,6 +17,9 @@ _MUTATING_METHODS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
 _PUBLIC_BLOCKED_PATHS = frozenset({"/api/v1/catalog/health", "/docs", "/redoc", "/openapi.json"})
 _PUBLIC_API_ROUTES = frozenset(
     {
+        ("GET", "/api/v1/ai/status"),
+        ("POST", "/api/v1/ai/dsl"),
+        ("POST", "/api/v1/ai/interpret"),
         ("GET", "/api/v1/catalog"),
         ("POST", "/api/v1/analyses/bias-audit"),
         ("POST", "/api/v1/analyses/run"),
