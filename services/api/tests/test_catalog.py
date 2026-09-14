@@ -84,6 +84,47 @@ class TestLoader:
         assert body["queues"] == ["RANKED_SOLO_5x5"]
         assert body["platformRegions"] == ["SYNTH"]
         assert body["tiers"] == ["GOLD"]
+        assert body["instanceCapabilities"]["publicInstance"] is False
+
+    def test_public_endpoint_redacts_compiler_metadata_without_mutating_catalog(
+        self,
+        catalog: Catalog,
+        con: duckdb.DuckDBPyConnection,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        from lod_api import runtime_profile
+        from lod_api.routers import catalog as catalog_router
+
+        monkeypatch.setattr(catalog_router, "cursor", con.cursor)
+        monkeypatch.setattr(catalog_router, "dataset_source", lambda: None)
+        monkeypatch.setattr(catalog_router, "load_catalog", lambda: catalog)
+        monkeypatch.setattr(runtime_profile, "_public_instance", True)
+
+        response = Response()
+        public_body = catalog_router.get_catalog(response)
+
+        assert response.headers["Cache-Control"] == "no-store"
+        assert "tables" not in public_body
+        assert "referencedColumns" not in public_body
+        assert "sqlBinding" not in public_body["events"]["first_blood"]
+        assert "sql" not in public_body["contextFields"]["time"]
+        assert "sql" not in public_body["subjectFields"]["kills"]
+
+        monkeypatch.setattr(runtime_profile, "_public_instance", False)
+        local_body = catalog_router.get_catalog(Response())
+        assert "sqlBinding" in local_body["events"]["first_blood"]
+        assert "sql" in local_body["contextFields"]["time"]
+
+    def test_patch_labels_are_sorted_as_versions(self) -> None:
+        from lod_api.routers.catalog import _patch_sort_key
+
+        patches = ["16.9", "15.24", "16.19", "16.10"]
+        assert sorted(patches, key=_patch_sort_key, reverse=True) == [
+            "16.19",
+            "16.10",
+            "16.9",
+            "15.24",
+        ]
 
     def test_synthetic_source_preserves_the_static_catalog(self, catalog: Catalog) -> None:
         effective = catalog.for_source("synthetic_v1")

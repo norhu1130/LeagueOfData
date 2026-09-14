@@ -1,14 +1,52 @@
-# LoL Match Analytics IDE
+# League of Data
 
-A local analytics environment for exploring League of Legends match data with a composable, domain-specific language.
+<p align="center">
+  <strong>Ask richer questions about League of Legends matches.</strong><br>
+  A local-first analytics IDE with a visual query builder, a composable DSL, and live DuckDB results.
+</p>
 
-This is not a match-history site or a fixed dashboard. It combines three systems:
+<p align="center">
+  <img src="docs/images/product-analysis-overview.png" alt="League of Data visual analysis workspace showing Elder Dragon win-rate and time-to-victory results" width="100%">
+</p>
 
-- **Analytics DSL** — a declarative language for LoL match questions
-- **Visual builder** — sentence-like cards that produce the same analysis without code
-- **Vectorized engine** — a DuckDB service that analyzes partitioned Parquet data
+<p align="center"><sub>Build an analysis from sentence-like cards and inspect the result, sample, and bias warnings in one workspace.</sub></p>
 
-The visual builder and DSL editor share one canonical AST and can switch between views without changing the meaning of an analysis.
+League of Data is not a match-history site or a fixed dashboard. It is an exploratory environment
+for turning LoL questions into reproducible analyses:
+
+- **Visual query builder** — assemble readable condition, grouping, and result cards without code
+- **Analytics DSL** — inspect or edit the exact declarative query behind every visual analysis
+- **Bias-aware results** — surface sampling and interpretation risks next to the numbers
+- **Vectorized execution** — analyze partitioned Parquet data through a FastAPI and DuckDB engine
+
+The visual builder and DSL editor share one canonical AST, so switching views never changes the
+meaning of an analysis.
+
+## Product tour
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="docs/images/product-champion-analysis.png" alt="Champion pick, ban, and win-rate analysis in League of Data">
+      <br><strong>Champion analysis</strong><br>
+      Compare pick, ban, and win rates with filters for role, team relation, patch, tier, and game mode.
+    </td>
+    <td width="50%">
+      <img src="docs/images/product-builder-dsl.png" alt="League of Data visual builder and DSL editor displayed side by side">
+      <br><strong>Visual ↔ DSL</strong><br>
+      Move between cards and code while preserving the same validated, canonical analysis.
+    </td>
+  </tr>
+</table>
+
+<details>
+  <summary><strong>Responsive workspace</strong></summary>
+  <br>
+  <p align="center">
+    <img src="docs/images/product-responsive.png" alt="League of Data home screen on a narrow viewport" width="360">
+  </p>
+  <p align="center"><sub>Navigation and starter analyses remain usable on narrow screens.</sub></p>
+</details>
 
 ## Quick start
 
@@ -21,6 +59,31 @@ pnpm dev
 ```
 
 The web application runs on `http://127.0.0.1:5173` and the API on `http://127.0.0.1:8000`. If data is missing, `/readyz` reports the command required to generate it.
+
+## Public demo profile
+
+The local development server and the public demo are separate commands. Build the web application
+and start the restricted, single-process demo server with:
+
+```bash
+pnpm public
+```
+
+It listens only on `http://127.0.0.1:8000` and serves both the built SPA and API, so the reverse
+proxy needs only one loopback upstream. The public profile is selected by the executable and cannot
+be enabled through `.env`; `config.toml` is not used. Its public-facing limits and same-origin
+request policy take precedence over looser local settings.
+
+This profile disables AI and data-source management, match drill-down, SQL diagnostics, and API
+documentation; redacts readiness details; adds API security headers and per-client rate limiting;
+and applies conservative concurrency, queue, query-time, DuckDB thread, and memory limits. It also
+tells the web app to hide controls for unavailable server capabilities.
+
+Expose it through a same-origin HTTPS reverse proxy. Add Basic Auth, OIDC, or an access gateway at
+that edge when the demo should not be open to everyone. Preserve the original `Host` and scheme,
+replace rather than append untrusted client forwarding headers, and connect to the upstream through
+`127.0.0.1`. The public command reduces the exposed surface but is not an authentication system,
+TLS terminator, container sandbox, or persistent distributed rate limiter.
 
 ## Optional AI assistance
 

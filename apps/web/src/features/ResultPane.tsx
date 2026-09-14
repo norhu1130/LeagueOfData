@@ -40,6 +40,7 @@ export function ResultPane({
   colorTheme,
   dsl,
   aiEnabled,
+  matchDrilldownEnabled,
   onRefreshRun,
 }: {
   result: AnalysisResponse | null;
@@ -52,6 +53,7 @@ export function ResultPane({
   colorTheme: ColorTheme;
   dsl: string;
   aiEnabled: boolean;
+  matchDrilldownEnabled: boolean;
   onRefreshRun: () => Promise<void>;
 }) {
   const [matches, setMatches] = useState<
@@ -394,7 +396,7 @@ export function ResultPane({
                 </span>
               ))}
           </section>
-          {route.kind === 'analysis' && route.view === 'editor' && (
+          {matchDrilldownEnabled && route.kind === 'analysis' && route.view === 'editor' && (
             <button
               className="matches-button"
               onClick={() => navigate({ kind: 'analysis', documentId, view: 'matches' })}

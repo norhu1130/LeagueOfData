@@ -113,7 +113,7 @@ def _require_string(
     if (
         not isinstance(value, str)
         or (not allow_empty and not value)
-        or len(value) > settings.max_ast_string_length
+        or len(value) > settings.effective_max_ast_string_length
     ):
         raise _invalid_request(f"{field} 문자열이 비어 있거나 너무 깁니다.")
 
@@ -138,7 +138,7 @@ def _require_number(value: Any, field: str, *, nonnegative: bool = False) -> Non
 
 def validate_analysis_ast(ast: Any) -> None:
     """Validate the executable AST boundary independently from browser-side validation."""
-    _json_size(ast, settings.max_ast_bytes, "분석")
+    _json_size(ast, settings.effective_max_ast_bytes, "분석")
     if not isinstance(ast, dict) or ast.get("kind") != "Program":
         raise _invalid_request("최상위 형식은 Program이어야 합니다.")
 
@@ -178,9 +178,9 @@ def validate_analysis_ast(ast: Any) -> None:
     while stack:
         node, depth = stack.pop()
         count += 1
-        if count > settings.max_ast_nodes:
+        if count > settings.effective_max_ast_nodes:
             raise _invalid_request("분석 노드 수가 허용 범위를 넘었습니다.")
-        if depth > settings.max_ast_depth:
+        if depth > settings.effective_max_ast_depth:
             raise _invalid_request("분석 구조가 너무 깊습니다.")
 
         kind = node.get("kind")
@@ -340,8 +340,8 @@ def validate_analysis_ast(ast: Any) -> None:
 
 
 def _validate_regions(regions: Any) -> None:
-    _json_size(regions, settings.max_region_bytes, "영역")
-    if not isinstance(regions, dict) or len(regions) > settings.max_regions:
+    _json_size(regions, settings.effective_max_region_bytes, "영역")
+    if not isinstance(regions, dict) or len(regions) > settings.effective_max_regions:
         raise _invalid_request("영역 수가 허용 범위를 넘었습니다.")
 
     vertices = 0
@@ -362,7 +362,7 @@ def _validate_regions(regions: Any) -> None:
             if len(value["points"]) < 3:
                 raise _invalid_request("다각형에는 점이 세 개 이상 필요합니다.")
             vertices += len(value["points"])
-            if vertices > settings.max_region_vertices:
+            if vertices > settings.effective_max_region_vertices:
                 raise _invalid_request("영역 꼭짓점 수가 허용 범위를 넘었습니다.")
             for point in value["points"]:
                 if not isinstance(point, list) or len(point) != 2:
@@ -395,7 +395,7 @@ def _validate_regions(regions: Any) -> None:
                 shape(part, depth + 1)
         else:
             raise _invalid_request("지원하지 않는 영역 도형입니다.")
-        if vertices > settings.max_region_vertices:
+        if vertices > settings.effective_max_region_vertices:
             raise _invalid_request("영역 꼭짓점 수가 허용 범위를 넘었습니다.")
 
     for region_id, definition in regions.items():

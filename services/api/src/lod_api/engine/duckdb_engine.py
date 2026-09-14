@@ -80,7 +80,9 @@ class DuckDBEngine:
         combined = compiler.compile_combined()
         point_query = self._compiler(plan).compile_matched_points()
         matched_query = (
-            self._compiler(plan).compile_matched_ids() if self._valid_run_id(run_id) else None
+            self._compiler(plan).compile_matched_ids()
+            if self._valid_run_id(run_id) and not settings.public_instance
+            else None
         )
 
         con = cursor()

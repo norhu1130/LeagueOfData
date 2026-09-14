@@ -225,6 +225,7 @@ export function App() {
   const effectiveCatalogHash =
     effectiveCatalog?.hash ?? effectiveCatalog?.catalogHash ?? catalog.hash;
   const datasetSource = effectiveCatalog?.datasetSource ?? null;
+  const publicInstance = effectiveCatalog?.instanceCapabilities.publicInstance ?? false;
   const syntheticDataset = datasetSource?.startsWith('synthetic') ?? false;
   const {
     runId,
@@ -265,7 +266,9 @@ export function App() {
     remove: removeDataSource,
   } = useDataSources({
     client: analysisClient,
-    enabled: route.kind === 'dataSources',
+    enabled:
+      route.kind === 'dataSources' &&
+      Boolean(effectiveCatalog?.instanceCapabilities.dataSourceManagement),
     onInvalidate: invalidateCurrentResult,
     onCatalogChange: updateEffectiveCatalog,
   });
@@ -311,11 +314,30 @@ export function App() {
       .finally(() => setCatalogReady(true));
   }, []);
   useEffect(() => {
+    if (!effectiveCatalog) return;
+    if (!effectiveCatalog.instanceCapabilities.ai) {
+      setAiStatus(null);
+      return;
+    }
     void analysisClient
       .aiStatus()
       .then(setAiStatus)
       .catch(() => setAiStatus(null));
-  }, []);
+  }, [effectiveCatalog]);
+  useEffect(() => {
+    if (
+      effectiveCatalog?.instanceCapabilities.publicInstance &&
+      (route.kind === 'settings' || route.kind === 'dataSources')
+    ) {
+      navigate({ kind: 'home' }, true);
+    }
+  }, [effectiveCatalog, navigate, route.kind]);
+  useEffect(() => {
+    if (!effectiveCatalog || !datasetPatch || effectiveCatalog.patches.includes(datasetPatch))
+      return;
+    invalidateCurrentResult();
+    setDatasetPatch('');
+  }, [datasetPatch, effectiveCatalog, invalidateCurrentResult]);
   useEffect(() => {
     if (!hydrated || route.kind !== 'analysis' || route.documentId === documentId) return;
     const saved = savedAnalyses.find((analysis) => analysis.id === route.documentId);
@@ -980,6 +1002,7 @@ export function App() {
         route={route}
         saveStatus={saveStatus}
         syntheticDataset={syntheticDataset}
+        publicInstance={publicInstance}
         colorTheme={colorTheme}
         mode={mode}
         catalogReady={catalogReady}
@@ -1210,6 +1233,7 @@ export function App() {
             colorTheme={colorTheme}
             dsl={sync.dslText}
             aiEnabled={Boolean(aiStatus?.enabled)}
+            matchDrilldownEnabled={effectiveCatalog?.instanceCapabilities.matchDrilldown ?? false}
             onRefreshRun={() => execute()}
           />
         </>

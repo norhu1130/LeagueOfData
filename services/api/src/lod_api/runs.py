@@ -48,6 +48,7 @@ class RunRecord:
     completed_at: float | None = None
     last_accessed_at: float = field(default_factory=time.time)
     cancellation_requested: bool = False
+    timeout_triggered: bool = False
     condition: threading.Condition = field(default_factory=threading.Condition)
 
     @property
@@ -64,6 +65,7 @@ class RunManager:
         max_queued_runs: int = settings.max_queued_runs,
         max_cache_entries: int = 64,
         run_ttl_seconds: int = settings.run_ttl_seconds,
+        query_timeout_seconds: float | None = None,
         snapshot_provider: Callable[[], str | None] = dataset_snapshot_id,
     ) -> None:
         if max_workers < 1 or max_queued_runs < 0:
@@ -79,6 +81,7 @@ class RunManager:
         self._max_cache_entries = max_cache_entries
         self._snapshot_provider = snapshot_provider
         self._run_ttl_seconds = run_ttl_seconds
+        self._query_timeout_seconds = query_timeout_seconds
 
     def submit(
         self,
@@ -170,8 +173,34 @@ class RunManager:
     @staticmethod
     def _raise_if_cancelled(record: RunRecord) -> None:
         with record.condition:
-            if record.cancellation_requested:
+            if record.cancellation_requested or record.timeout_triggered:
                 raise QueryCancelled(record.run_id)
+
+    def _execute_engine(self, record: RunRecord) -> ResultSet:
+        timer: threading.Timer | None = None
+        if self._query_timeout_seconds is not None:
+            timer = threading.Timer(
+                self._query_timeout_seconds,
+                self._expire_run,
+                args=(record,),
+            )
+            timer.daemon = True
+            timer.start()
+        try:
+            plan = record.plan
+            if plan is None:
+                raise RuntimeError("run entered execution without a compiled plan")
+            return self.engine.execute(plan, run_id=record.run_id)
+        finally:
+            if timer is not None:
+                timer.cancel()
+
+    def _expire_run(self, record: RunRecord) -> None:
+        with record.condition:
+            if record.terminal or record.cancellation_requested:
+                return
+            record.timeout_triggered = True
+        self.engine.cancel(record.run_id)
 
     def _execute(
         self,
@@ -223,7 +252,7 @@ class RunManager:
                 return
             self._publish(record, "running", indeterminate=True)
             self._raise_if_cancelled(record)
-            result = self.engine.execute(record.plan, run_id=record.run_id)
+            result = self._execute_engine(record)
             self._raise_if_cancelled(record)
             self._cache_put(record.cache_key, result)
             self._publish(record, "materializing", done=0, total=1)
@@ -244,7 +273,16 @@ class RunManager:
             self._publish(record, "completed", terminal=True, result=record.response)
         except QueryCancelled:
             record.response = None
-            self._publish(record, "cancelled", terminal=True)
+            if record.timeout_triggered:
+                record.diagnostic = {
+                    "code": "E-RUN-TIMEOUT",
+                    "severity": "error",
+                    "titleKo": "분석 실행 시간이 초과되었습니다",
+                    "bodyKo": "공개 데모의 실행 시간 제한을 넘었습니다. 조건을 좁혀 다시 시도해 주세요.",  # noqa: E501
+                }
+                self._publish(record, "failed", terminal=True, diagnostic=record.diagnostic)
+            else:
+                self._publish(record, "cancelled", terminal=True)
         except Exception as exc:  # noqa: BLE001 — convert execution failures to SSE diagnostics
             logger.exception("Analysis run %s failed", record.run_id)
             safe_message = getattr(exc, "message_ko", None)
@@ -288,6 +326,11 @@ def analysis_response(
     dataset_source: str | None = None,
 ) -> dict[str, Any]:
     rows = result.data.to_pylist()
+    map_points = (
+        [{"x_norm": point["x_norm"], "y_norm": point["y_norm"]} for point in result.map_points]
+        if settings.public_instance
+        else result.map_points
+    )
     provenance = {
         "grain": plan.grain,
         "grainLabelKo": plan.grain_unit_ko,
@@ -325,7 +368,7 @@ def analysis_response(
             }
             for measure in plan.measures
         ],
-        "mapPoints": result.map_points,
+        "mapPoints": map_points,
     }
     comparison = _comparison_payload(plan, rows)
     if comparison is not None:
@@ -420,7 +463,7 @@ def analysis_response(
             "compileMs": compile_ms,
             "executeMs": 0.0 if cache_hit else result.stats.elapsed_ms,
             "cacheHit": cache_hit,
-            "engineVersion": result.engine,
+            "engineVersion": "duckdb" if settings.public_instance else result.engine,
         },
     }
 
@@ -528,6 +571,9 @@ def _viz(result_shape: str) -> dict[str, Any]:
 
 
 manager = RunManager(
-    max_workers=settings.max_concurrent_runs,
-    max_queued_runs=settings.max_queued_runs,
+    max_workers=settings.effective_max_concurrent_runs,
+    max_queued_runs=settings.effective_max_queued_runs,
+    max_cache_entries=settings.effective_max_cache_entries,
+    run_ttl_seconds=settings.effective_run_ttl_seconds,
+    query_timeout_seconds=settings.effective_query_timeout_seconds,
 )

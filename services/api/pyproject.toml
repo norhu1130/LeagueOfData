@@ -17,6 +17,7 @@ dependencies = [
 
 [project.scripts]
 lod-api = "lod_api.main:run"
+lod-public = "lod_api.public:run"
 
 [tool.uv.sources]
 lod-data = { workspace = true }

@@ -41,15 +41,17 @@ def _views(con: duckdb.DuckDBPyConnection, root: Path) -> None:
         path = root / table
         if not path.exists():
             continue
-        con.execute(
-            f"CREATE OR REPLACE VIEW {table} AS "
-            f"SELECT * FROM read_parquet('{path}/**/*.parquet', "
-            "hive_partitioning=1, union_by_name=1)"
-        )
+        # Relation APIs keep a caller-controlled filesystem path out of SQL text. Table names are
+        # selected exclusively from the fixed tuple above.
+        con.from_parquet(
+            str(path / "**/*.parquet"), hive_partitioning=True, union_by_name=True
+        ).create_view(table, replace=True)
 
 
-def _scalar(con: duckdb.DuckDBPyConnection, sql: str) -> float:
-    row = con.execute(sql).fetchone()
+def _scalar(
+    con: duckdb.DuckDBPyConnection, sql: str, params: dict[str, Any] | None = None
+) -> float:
+    row = con.execute(sql, params or {}).fetchone()
     return float("nan") if row is None or row[0] is None else float(row[0])
 
 
@@ -75,13 +77,15 @@ def measure_dataset(root: Path) -> dict[str, float]:
         m[f"win_rate_given_fb_{key}"] = _scalar(
             con,
             "SELECT avg(CASE WHEN win THEN 1.0 ELSE 0.0 END) FROM match_summary "
-            f"WHERE got_first_blood AND first_blood_region = '{lane}'",
+            "WHERE got_first_blood AND first_blood_region = $lane",
+            {"lane": lane},
         )
     for threshold in (1500, 3000):
         m[f"win_rate_given_gold_lead_{threshold}_at_10m"] = _scalar(
             con,
             "SELECT avg(CASE WHEN win THEN 1.0 ELSE 0.0 END) FROM match_summary "
-            f"WHERE gold_diff_at_10m >= {threshold}",
+            "WHERE gold_diff_at_10m >= $threshold",
+            {"threshold": threshold},
         )
     m["median_duration_min"] = _scalar(con, "SELECT median(duration_s) / 60.0 FROM matches")
     m["mean_fb_to_first_tower_s"] = _scalar(

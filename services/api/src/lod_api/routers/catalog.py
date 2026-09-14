@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from copy import deepcopy
 from typing import Any
 
 from fastapi import APIRouter, Response
@@ -14,6 +15,7 @@ from lod_api.catalog import (
     load_effective_catalog,
     verify_against_schema,
 )
+from lod_api.config import settings
 from lod_api.db import cursor, dataset_snapshot_id
 
 router = APIRouter(prefix="/api/v1", tags=["catalog"])
@@ -27,11 +29,18 @@ def get_catalog(response: Response) -> dict[str, Any]:
     snapshot = dataset_snapshot_id()
     # Let the frontend reuse data while both catalog and dataset remain unchanged.
     response.headers["ETag"] = f'W/"{catalog.hash}:{snapshot or "nodata"}"'
-    response.headers["Cache-Control"] = "no-cache"
-    data = dict(catalog.as_dict())
+    response.headers["Cache-Control"] = "no-store" if settings.public_instance else "no-cache"
+    data = deepcopy(catalog.as_dict()) if settings.public_instance else dict(catalog.as_dict())
     data["datasetSnapshotId"] = snapshot
     data["datasetSource"] = source
     data.setdefault("sourceCapabilities", {"events": {}, "contexts": {}})
+    data["instanceCapabilities"] = {
+        "publicInstance": settings.public_instance,
+        "ai": not settings.public_instance,
+        "dataSourceManagement": not settings.public_instance,
+        "matchDrilldown": not settings.public_instance,
+        "diagnostics": not settings.public_instance,
+    }
     data["mapRegions"] = [
         {
             "id": region.id,
@@ -43,7 +52,23 @@ def get_catalog(response: Response) -> dict[str, Any]:
         for region in preset_regions().values()
     ]
     data.update(_dataset_facets())
+    if settings.public_instance:
+        _redact_public_catalog(data)
     return data
+
+
+def _redact_public_catalog(data: dict[str, Any]) -> None:
+    """Remove compiler-only schema and SQL metadata from the public browser catalog."""
+    data.pop("tables", None)
+    data.pop("referencedColumns", None)
+    for event in data.get("events", {}).values():
+        if isinstance(event, dict):
+            event.pop("sqlBinding", None)
+    for collection in ("contextFields", "subjectFields", "groupKeys"):
+        for definition in data.get(collection, {}).values():
+            if isinstance(definition, dict):
+                definition.pop("sql", None)
+                definition.pop("table", None)
 
 
 def _dataset_facets() -> dict[str, list[Any]]:
@@ -64,10 +89,17 @@ def _dataset_facets() -> dict[str, list[Any]]:
                 "WHERE event_type = 'item_purchase' AND item_id IS NOT NULL ORDER BY item_id"
             ).fetchall()
         ]
-        patches = [
-            row[0]
-            for row in con.execute("SELECT DISTINCT patch FROM matches ORDER BY patch").fetchall()
-        ]
+        patches = sorted(
+            {
+                str(row[0]).strip()
+                for row in con.execute(
+                    "SELECT DISTINCT patch FROM matches "
+                    "WHERE patch IS NOT NULL AND trim(patch) <> ''"
+                ).fetchall()
+            },
+            key=_patch_sort_key,
+            reverse=True,
+        )
         queues = [
             row[0]
             for row in con.execute("SELECT DISTINCT queue FROM matches ORDER BY queue").fetchall()
@@ -97,6 +129,14 @@ def _dataset_facets() -> dict[str, list[Any]]:
         "platformRegions": platform_regions,
         "tiers": tiers,
     }
+
+
+def _patch_sort_key(patch: str) -> tuple[int, ...]:
+    """Sort Riot major/minor patch labels numerically instead of lexicographically."""
+    try:
+        return tuple(int(part) for part in patch.split("."))
+    except ValueError:
+        return (-1,)
 
 
 @router.get("/catalog/health")

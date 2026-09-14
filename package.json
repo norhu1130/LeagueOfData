@@ -11,6 +11,7 @@
     "dev": "concurrently -n web,api -c cyan,magenta \"pnpm -F @lol/web dev\" \"pnpm dev:api\"",
     "dev:web": "pnpm -F @lol/web dev",
     "dev:api": "LOD_RELOAD=true uv run lod-api",
+    "public": "pnpm -F @lol/web build && uv run lod-public",
     "build": "pnpm -r build",
     "typecheck": "tsc --build && pnpm -F @lol/web exec tsc --noEmit",
     "test": "vitest run",

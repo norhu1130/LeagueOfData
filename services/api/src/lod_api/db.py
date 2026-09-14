@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import contextlib
-import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -12,21 +11,15 @@ import duckdb
 from lod_api.config import settings
 
 
-def _memory_limit() -> str:
-    """Use 60% of physical memory, leaving headroom for large aggregations."""
-    try:
-        total = os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES")
-        return f"{max(1, int(total * 0.6 / 1e9))}GB"
-    except (ValueError, OSError, AttributeError):
-        return "4GB"
-
-
 @lru_cache(maxsize=1)
 def get_database() -> duckdb.DuckDBPyConnection:
     con = duckdb.connect(":memory:")
-    cpu = os.cpu_count() or 4
-    con.execute(f"SET threads = {max(1, cpu // 2)}")
-    con.execute(f"SET memory_limit = '{_memory_limit()}'")
+    con.execute(f"SET threads = {settings.effective_duckdb_threads}")
+    con.execute(f"SET memory_limit = '{settings.effective_duckdb_memory_limit}'")
+    if settings.effective_duckdb_temp_directory_limit is not None:
+        con.execute(
+            f"SET max_temp_directory_size = '{settings.effective_duckdb_temp_directory_limit}'"
+        )
     # Reuse Parquet metadata to reduce repeated-query latency.
     con.execute("SET enable_object_cache = true")
     tmp = settings.data_dir / "tmp"

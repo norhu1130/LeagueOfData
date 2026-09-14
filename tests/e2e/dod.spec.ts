@@ -6,6 +6,13 @@ async function openExample(page: Page, title: string) {
   await expect(page.locator('.run-phase')).toHaveCount(0);
 }
 
+function visibleVerticalCenter(box: { y: number; height: number }, viewportHeight: number): number {
+  const top = Math.max(0, box.y);
+  const bottom = Math.min(viewportHeight, box.y + box.height);
+  if (bottom <= top) throw new Error('Resize handle is outside the viewport');
+  return top + (bottom - top) / 2;
+}
+
 async function openCardPicker(
   page: Page,
   kind: '사건' | '아이템 대응' | '위치' | '수치 차이' | '이어지는 사건' = '사건',
@@ -208,9 +215,11 @@ test('resizes and persists the left and right application panels', async ({ page
     throw new Error('Resizable panel fixture is not visible');
   }
 
-  await page.mouse.move(sidebarBox.x + sidebarBox.width / 2, sidebarBox.y + 120);
+  const viewportHeight = page.viewportSize()?.height ?? 900;
+  const sidebarY = visibleVerticalCenter(sidebarBox, viewportHeight);
+  await page.mouse.move(sidebarBox.x + sidebarBox.width / 2, sidebarY);
   await page.mouse.down();
-  await page.mouse.move(sidebarBox.x + sidebarBox.width / 2 + 64, sidebarBox.y + 120, {
+  await page.mouse.move(sidebarBox.x + sidebarBox.width / 2 + 64, sidebarY, {
     steps: 5,
   });
   await page.mouse.up();
@@ -220,9 +229,10 @@ test('resizes and persists the left and right application panels', async ({ page
 
   const resultBox = await resultHandle.boundingBox();
   if (!resultBox) throw new Error('Result panel resize handle is not visible');
-  await page.mouse.move(resultBox.x + resultBox.width / 2, resultBox.y + 120);
+  const resultY = visibleVerticalCenter(resultBox, viewportHeight);
+  await page.mouse.move(resultBox.x + resultBox.width / 2, resultY);
   await page.mouse.down();
-  await page.mouse.move(resultBox.x + resultBox.width / 2 - 80, resultBox.y + 120, { steps: 5 });
+  await page.mouse.move(resultBox.x + resultBox.width / 2 - 80, resultY, { steps: 5 });
   await page.mouse.up();
 
   const resizedSidebar = await page.locator('.sidebar').boundingBox();
@@ -815,7 +825,13 @@ test('accepts context-aware DSL inline completion with Tab', async ({ page }) =>
   await page.keyboard.press('Control+A');
   await page.keyboard.press('Backspace');
   await page.keyboard.insertText('AN');
-  await expect(page.locator('.ghost-text-decoration')).toContainText('ALYZE');
+  // Monaco may render the same completion as ghost text or promote it into the suggestion
+  // widget depending on provider timing. Assert the user-visible completion, not one renderer.
+  const analyzeCompletion = page
+    .locator('.ghost-text-decoration', { hasText: 'ALYZE' })
+    .or(page.getByRole('option', { name: /^ANALYZE/ }))
+    .first();
+  await expect(analyzeCompletion).toBeVisible();
   await page.keyboard.press('Tab');
   await expect(page.locator('.monaco-host')).toContainText('ANALYZE');
 });

@@ -702,6 +702,30 @@ def test_execute_materializes_the_complete_drilldown_before_completion(
     assert duckdb.read_parquet(target).count("*").fetchone()[0] == result.stats.matched_units
 
 
+def test_public_execute_does_not_materialize_disabled_drilldown(
+    engine_context, monkeypatch, tmp_path
+) -> None:
+    from lod_api import runtime_profile
+    from lod_api.engine import duckdb_engine
+
+    con, regions = engine_context
+    monkeypatch.setattr(duckdb_engine, "cursor", con.cursor)
+    monkeypatch.setattr(duckdb_engine, "has_spatial", lambda: False)
+    monkeypatch.setattr(runtime_profile, "_public_instance", True)
+    ast = json.loads(
+        (CASES / "dod-a-first-blood-win-rate" / "expected.ast.json").read_text(encoding="utf-8")
+    )
+    plan = PlanBuilder().build(ast, regions=regions)
+    engine = DuckDBEngine()
+    target = tmp_path / "matched.parquet"
+    monkeypatch.setattr(engine, "_matched_path", lambda _run_id: target)
+
+    result = engine.execute(plan, run_id="a" * 32)
+
+    assert result.matched_ref is None
+    assert not target.exists()
+
+
 def test_player_selector_and_player_event_are_applied_to_the_same_participant(
     engine_context, monkeypatch
 ) -> None:

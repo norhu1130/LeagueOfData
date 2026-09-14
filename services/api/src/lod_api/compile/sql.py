@@ -934,7 +934,8 @@ class SqlCompiler:
     def _chain_hit_sql(self) -> str:
         """Compile whether a strictly later follow-up occurs inside the chain window."""
         chain = self.plan.chain
-        assert chain is not None and chain.target is not None
+        if chain is None or chain.target is None:
+            raise RuntimeError("chain SQL requested without a complete chain plan")
         target = chain.target
         identity_clauses = [
             "t.match_id = base.match_id",

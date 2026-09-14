@@ -100,6 +100,37 @@ def test_run_lifecycle_and_result_envelope() -> None:
     assert response["provenance"]["drilldown"]["expiresAt"].endswith("+00:00")
 
 
+def test_public_result_redacts_map_point_identifiers(monkeypatch) -> None:
+    from lod_api import runtime_profile
+
+    class SpatialFakeEngine(FakeEngine):
+        def execute(self, plan: PhysicalPlan, *, run_id: str) -> ResultSet:
+            result = super().execute(plan, run_id=run_id)
+            result.map_points = [
+                {
+                    "match_id": "KR_123",
+                    "event_id": 456,
+                    "timestamp_ms": 789,
+                    "x_norm": 0.25,
+                    "y_norm": 0.75,
+                }
+            ]
+            return result
+
+    monkeypatch.setattr(runtime_profile, "_public_instance", True)
+    manager = RunManager(SpatialFakeEngine(), max_workers=1)
+    run_id = manager.submit(_ast())
+    while True:
+        _, terminal = manager.wait_events(run_id, 0, timeout=2)
+        if terminal:
+            break
+
+    record = manager.get(run_id)
+    assert record is not None and record.response is not None
+    assert record.response["result"]["mapPoints"] == [{"x_norm": 0.25, "y_norm": 0.75}]
+    assert record.response["timing"]["engineVersion"] == "duckdb"
+
+
 def test_identical_run_uses_cache_and_snapshot_change_invalidates_it() -> None:
     engine = FakeEngine()
     snapshot = ["snapshot-1"]
@@ -291,6 +322,20 @@ def test_running_query_can_be_cancelled() -> None:
         if terminal:
             break
     assert events[-1]["phase"] == "cancelled"
+
+
+def test_public_query_timeout_interrupts_and_reports_a_diagnostic() -> None:
+    engine = SlowEngine()
+    manager = RunManager(engine, max_workers=1, query_timeout_seconds=0.01)
+    run_id = manager.submit(_ast())
+    record = manager._runs[run_id]
+    assert record.future is not None
+    record.future.result(timeout=2)
+
+    assert record.status == "failed"
+    assert record.timeout_triggered is True
+    assert record.diagnostic is not None
+    assert record.diagnostic["code"] == "E-RUN-TIMEOUT"
 
 
 class CooperativeOnlyEngine(FakeEngine):

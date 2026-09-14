@@ -13,7 +13,7 @@ from lod_data.schema import SCHEMA_VERSION
 from lod_data.synth.engine import measure, simulate
 from lod_data.synth.generator import generate
 from lod_data.synth.params import SynthParams
-from lod_data.synth.validate import check_integrity
+from lod_data.synth.validate import check_integrity, measure_dataset
 from lod_data.synth.writer import write_dataset
 
 N_TEST_MATCHES = 400
@@ -118,6 +118,12 @@ class TestDeterminism:
 
 
 class TestIntegrity:
+    def test_validation_handles_dataset_paths_with_quotes(self, tmp_path: Path) -> None:
+        root = tmp_path / "quoted'silver"
+        write_dataset(1, root, seed=SEED, workers=1, chunk_size=1, progress=False)
+
+        assert measure_dataset(root)["n_matches"] == 1
+
     def test_no_integrity_violations(self, dataset: Path) -> None:
         failures = check_integrity(dataset)
         assert not failures, "Integrity violations:\n" + "\n".join(failures)

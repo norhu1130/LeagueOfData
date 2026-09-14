@@ -59,9 +59,9 @@ export interface AnalysisResponse {
     }[];
     readonly confidenceInterval95?: { readonly low: number; readonly high: number };
     readonly mapPoints: readonly {
-      readonly match_id: string;
-      readonly event_id: number;
-      readonly timestamp_ms: number;
+      readonly match_id?: string;
+      readonly event_id?: number;
+      readonly timestamp_ms?: number;
       readonly x_norm: number;
       readonly y_norm: number;
     }[];
@@ -162,7 +162,7 @@ export interface EffectiveEventDefinition {
   readonly unavailableReasonKo?: string;
   readonly atMostOncePerMatch: boolean;
   readonly context: readonly string[];
-  readonly sqlBinding: {
+  readonly sqlBinding?: {
     readonly table: string;
     readonly where: string;
     readonly columns: readonly string[];
@@ -177,7 +177,7 @@ export interface EffectiveContextDefinition {
   readonly descriptionKo: string;
   readonly type: string;
   readonly temporality: string;
-  readonly sql:
+  readonly sql?:
     | string
     | {
         readonly xNorm: string;
@@ -237,7 +237,7 @@ export interface EffectiveCatalog {
   readonly map: { readonly min: number; readonly span: number };
   readonly events: Readonly<Record<string, EffectiveEventDefinition>>;
   readonly contextFields: Readonly<Record<string, EffectiveContextDefinition>>;
-  readonly tables: Readonly<Record<string, unknown>>;
+  readonly tables?: Readonly<Record<string, unknown>>;
   readonly grains: Readonly<Record<string, unknown>>;
   readonly entities: Readonly<Record<string, unknown>>;
   readonly landmarks: Readonly<Record<string, unknown>>;
@@ -246,7 +246,7 @@ export interface EffectiveCatalog {
   readonly dslLanguage: EffectiveDslLanguage;
   readonly diagnostics: Readonly<Record<string, unknown>>;
   readonly forbiddenPhrases: readonly string[];
-  readonly referencedColumns: Readonly<Record<string, readonly string[]>>;
+  readonly referencedColumns?: Readonly<Record<string, readonly string[]>>;
   readonly datasetSnapshotId: string | null;
   readonly mapRegions: readonly EffectiveMapRegion[];
   readonly champions: readonly { readonly id: number; readonly name: string }[];
@@ -257,6 +257,13 @@ export interface EffectiveCatalog {
   readonly tiers: readonly string[];
   readonly platformRegions: readonly string[];
   readonly datasetSource: string | null;
+  readonly instanceCapabilities: {
+    readonly publicInstance: boolean;
+    readonly ai: boolean;
+    readonly dataSourceManagement: boolean;
+    readonly matchDrilldown: boolean;
+    readonly diagnostics: boolean;
+  };
   readonly sourceCapabilities: {
     readonly events: Readonly<
       Record<string, { readonly available: false; readonly reasonKo: string }>

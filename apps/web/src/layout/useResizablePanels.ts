@@ -56,6 +56,11 @@ export function useResizablePanels(resultPaneVisible: boolean) {
       panelResizeAbort.current = controller;
       const startX = event.clientX;
       const startWidth = panelWidths[panel];
+      const handle = event.currentTarget;
+      const pointerId = event.pointerId;
+      // Keep receiving movement if the pointer outruns the narrow 8 px separator or the page
+      // rerenders while a result finishes loading.
+      handle.setPointerCapture(pointerId);
       document.body.classList.add('panel-resizing');
       const move = (moveEvent: PointerEvent) => {
         const delta = moveEvent.clientX - startX;
@@ -63,6 +68,7 @@ export function useResizablePanels(resultPaneVisible: boolean) {
       };
       const stop = () => {
         controller.abort();
+        if (handle.hasPointerCapture(pointerId)) handle.releasePointerCapture(pointerId);
         if (panelResizeAbort.current === controller) panelResizeAbort.current = null;
         document.body.classList.remove('panel-resizing');
       };

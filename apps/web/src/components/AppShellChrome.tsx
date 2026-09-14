@@ -16,6 +16,7 @@ export function AppHeader({
   route,
   saveStatus,
   syntheticDataset,
+  publicInstance,
   colorTheme,
   mode,
   catalogReady,
@@ -36,6 +37,7 @@ export function AppHeader({
   route: AppRoute;
   saveStatus: 'saved' | 'saving' | 'error';
   syntheticDataset: boolean;
+  publicInstance: boolean;
   colorTheme: ColorTheme;
   mode: EditorMode;
   catalogReady: boolean;
@@ -80,6 +82,11 @@ export function AppHeader({
           합성 데이터
         </strong>
       )}
+      {publicInstance && (
+        <strong className="dataset-badge" title="관리 기능이 비활성화된 공개 데모입니다.">
+          공개 데모
+        </strong>
+      )}
       <nav className="primary-nav" aria-label="주요 화면">
         {(
           [
@@ -88,15 +95,17 @@ export function AppHeader({
             ['dataSources', '데이터 소스'],
             ['settings', '설정'],
           ] as const
-        ).map(([kind, label]) => (
-          <button
-            key={kind}
-            aria-current={route.kind === kind ? 'page' : undefined}
-            onClick={() => onNavigate({ kind })}
-          >
-            {label}
-          </button>
-        ))}
+        )
+          .filter(([kind]) => !publicInstance || (kind !== 'dataSources' && kind !== 'settings'))
+          .map(([kind, label]) => (
+            <button
+              key={kind}
+              aria-current={route.kind === kind ? 'page' : undefined}
+              onClick={() => onNavigate({ kind })}
+            >
+              {label}
+            </button>
+          ))}
       </nav>
       <button
         className="theme-toggle"

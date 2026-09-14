@@ -185,7 +185,15 @@ def normalize_bronze(
         for result in _normalization_results(match_paths, selected_queues, effective_workers):
             attempted += 1
             if result.status == "completed":
-                assert result.key is not None and result.tables is not None
+                if result.key is None or result.tables is None:
+                    failures.append(
+                        {
+                            "match": result.match_id,
+                            "error": "normalizer returned an incomplete completed result",
+                        }
+                    )
+                    report()
+                    continue
                 for table_name, table in result.tables.items():
                     grouped[result.key][table_name].append(table)
                 completed += 1
@@ -193,11 +201,18 @@ def normalize_bronze(
                 if buffered >= batch_size:
                     flush()
             elif result.status == "excluded":
-                assert result.detail is not None
-                exclusions.append(result.detail)
+                exclusions.append(
+                    result.detail
+                    or {"match": result.match_id, "reason": "normalizer_result_missing_detail"}
+                )
             else:
-                assert result.detail is not None
-                failures.append(result.detail)
+                failures.append(
+                    result.detail
+                    or {
+                        "match": result.match_id,
+                        "error": f"normalizer returned invalid status: {result.status}",
+                    }
+                )
             report()
         if buffered:
             flush()
