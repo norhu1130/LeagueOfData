@@ -1,0 +1,39 @@
+[
+  {
+    "code": "E-SYN-012",
+    "severity": "error",
+    "titleKo": "비교를 연달아 쓸 수 없습니다",
+    "got": {
+      "labelKo": "현재",
+      "items": [
+        "< 이 연달아 있음"
+      ]
+    },
+    "need": {
+      "labelKo": "필요",
+      "items": [
+        "AND 로 나누기",
+        "괄호로 묶기"
+      ]
+    }
+  },
+  {
+    "code": "E-SYN-001",
+    "severity": "error",
+    "titleKo": "무엇을 계산할지 정해 주세요",
+    "got": {
+      "labelKo": "현재",
+      "items": [
+        "결과가 정해지지 않음"
+      ]
+    },
+    "need": {
+      "labelKo": "필요",
+      "items": [
+        "승률",
+        "경기 수",
+        "발생 비율"
+      ]
+    }
+  }
+]

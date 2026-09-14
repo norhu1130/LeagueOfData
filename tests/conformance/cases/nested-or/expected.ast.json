@@ -1,0 +1,86 @@
+{
+  "analyze": {
+    "entity": "team",
+    "kind": "ScopeRef",
+    "side": "blue"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "win_rate",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": {
+      "kind": "BinaryExpr",
+      "left": {
+        "kind": "BinaryExpr",
+        "left": {
+          "event": {
+            "bindingId": "blue.first_blood#any",
+            "eventType": "first_blood",
+            "kind": "EventRef",
+            "ordinal": "any",
+            "scope": {
+              "entity": "team",
+              "kind": "ScopeRef",
+              "side": "blue"
+            },
+            "surface": "first_blood"
+          },
+          "kind": "EventPredicate",
+          "negated": false
+        },
+        "op": "OR",
+        "right": {
+          "event": {
+            "bindingId": "red.first_blood#any",
+            "eventType": "first_blood",
+            "kind": "EventRef",
+            "ordinal": "any",
+            "scope": {
+              "entity": "team",
+              "kind": "ScopeRef",
+              "side": "red"
+            },
+            "surface": "first_blood"
+          },
+          "kind": "EventPredicate",
+          "negated": false
+        }
+      },
+      "op": "AND",
+      "right": {
+        "kind": "BinaryExpr",
+        "left": {
+          "field": "time",
+          "kind": "FieldAccess",
+          "object": {
+            "bindingId": "any.first_blood#any",
+            "eventType": "first_blood",
+            "kind": "EventRef",
+            "ordinal": "any",
+            "scope": null,
+            "surface": "first_blood"
+          }
+        },
+        "op": "<",
+        "right": {
+          "kind": "DurationLit",
+          "raw": "5m",
+          "seconds": 300
+        }
+      }
+    }
+  },
+  "kind": "Program"
+}

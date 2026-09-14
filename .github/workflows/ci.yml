@@ -1,0 +1,59 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: 0.12.10
+          enable-cache: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: uv sync --frozen
+      - run: pnpm check:reference
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: uv run pytest -q
+      - run: uv build --all-packages --out-dir dist/wheels
+      - run: uv run python scripts/smoke_wheels.py dist/wheels
+      - run: pnpm lint
+      - run: pnpm -F @lol/web build
+      - run: uv run lod-data synth --n 10000 --seed 20260914
+      - run: uv run lod-data validate
+      - run: uv run python bench/run_bench.py --dataset synth-10k --strict --json bench/results/ci-10k.json
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+
+  python-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: 0.12.10
+          enable-cache: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: uv sync --frozen
+      - run: uv run pytest -q

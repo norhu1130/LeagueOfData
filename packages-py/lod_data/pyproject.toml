@@ -1,0 +1,26 @@
+[project]
+name = "lod-data"
+version = "0.0.0"
+description = "LoL match data model, synthetic generator, and Riot collector"
+license = "LicenseRef-League-of-Data-Source-Available-1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "pyarrow>=18.0",
+  "numpy>=2.1",
+  "duckdb>=1.1",
+  "httpx[http2]>=0.28",
+  "python-dotenv>=1.0",
+]
+
+[project.scripts]
+lod-data = "lod_data.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lod_data"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/lod_data/views.sql" = "lod_data/views.sql"

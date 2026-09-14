@@ -1,0 +1,8 @@
+{
+  "name": "spatial-within-radius",
+  "descriptionKo": "특정 건물 반경 안에서의 사망",
+  "tags": [
+    "spatial"
+  ],
+  "expectsErrors": false
+}

@@ -1,0 +1,8 @@
+{
+  "name": "group-by-champion",
+  "descriptionKo": "§12 — 챔피언별 승률",
+  "tags": [
+    "group-by"
+  ],
+  "expectsErrors": false
+}

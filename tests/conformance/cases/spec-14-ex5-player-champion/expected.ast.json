@@ -1,0 +1,88 @@
+{
+  "analyze": {
+    "entity": "player",
+    "kind": "ScopeRef"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "win_rate",
+          "kind": "CallExpr",
+          "scope": {
+            "entity": "player",
+            "kind": "ScopeRef"
+          }
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": {
+      "kind": "BinaryExpr",
+      "left": {
+        "kind": "BinaryExpr",
+        "left": {
+          "kind": "BinaryExpr",
+          "left": {
+            "field": "champion",
+            "kind": "FieldAccess",
+            "object": {
+              "kind": "Identifier",
+              "name": "player"
+            }
+          },
+          "op": "=",
+          "right": {
+            "kind": "StringLit",
+            "value": "Darius"
+          }
+        },
+        "op": "AND",
+        "right": {
+          "kind": "BinaryExpr",
+          "left": {
+            "field": "role",
+            "kind": "FieldAccess",
+            "object": {
+              "kind": "Identifier",
+              "name": "player"
+            }
+          },
+          "op": "=",
+          "right": {
+            "kind": "StringLit",
+            "value": "TOP"
+          }
+        }
+      },
+      "op": "AND",
+      "right": {
+        "kind": "BinaryExpr",
+        "left": {
+          "at": {
+            "kind": "ClockLit",
+            "raw": "10:00",
+            "seconds": 600
+          },
+          "kind": "MeasureAt",
+          "measure": "gold_diff",
+          "scope": {
+            "entity": "player",
+            "kind": "ScopeRef"
+          }
+        },
+        "op": ">=",
+        "right": {
+          "kind": "NumberLit",
+          "value": 500
+        }
+      }
+    }
+  },
+  "kind": "Program"
+}

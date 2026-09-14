@@ -1,0 +1,53 @@
+{
+  "analyze": null,
+  "body": {
+    "chain": {
+      "condition": {
+        "event": {
+          "bindingId": "any.dragon_kill#any",
+          "eventType": "dragon_kill",
+          "kind": "EventRef",
+          "ordinal": "any",
+          "scope": null,
+          "surface": "dragon_kill"
+        },
+        "kind": "EventPredicate",
+        "negated": false
+      },
+      "kind": "ChainClause",
+      "trigger": {
+        "bindingId": "blue.kill#any",
+        "eventType": "kill",
+        "kind": "EventRef",
+        "ordinal": "any",
+        "scope": {
+          "entity": "team",
+          "kind": "ScopeRef",
+          "side": "blue"
+        },
+        "surface": "kill"
+      },
+      "window": {
+        "kind": "DurationLit",
+        "raw": "90s",
+        "seconds": 90
+      }
+    },
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "success_rate",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": null
+  },
+  "kind": "Program"
+}

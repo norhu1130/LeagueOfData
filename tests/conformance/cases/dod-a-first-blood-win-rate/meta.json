@@ -1,0 +1,10 @@
+{
+  "name": "dod-a-first-blood-win-rate",
+  "descriptionKo": "퍼스트 블러드를 먹은 팀의 승률",
+  "dod": "A",
+  "tags": [
+    "event",
+    "win_rate"
+  ],
+  "expectsErrors": false
+}

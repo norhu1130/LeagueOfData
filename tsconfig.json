@@ -1,0 +1,16 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/data-model" },
+    { "path": "./packages/catalog" },
+    { "path": "./packages/ast" },
+    { "path": "./packages/dsl" },
+    { "path": "./packages/validate" },
+    { "path": "./packages/monaco-lang" },
+    { "path": "./packages/visual-builder" },
+    { "path": "./packages/map-editor" },
+    { "path": "./packages/charts" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/analysis-client" }
+  ]
+}

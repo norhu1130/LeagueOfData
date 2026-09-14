@@ -1,0 +1,16 @@
+{
+  "name": "@lol/monaco-lang",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@lol/catalog": "workspace:*",
+    "@lol/dsl": "workspace:*",
+    "monaco-editor": "^0.52.2"
+  }
+}

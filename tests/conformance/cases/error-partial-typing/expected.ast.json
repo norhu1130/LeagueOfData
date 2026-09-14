@@ -1,0 +1,35 @@
+{
+  "analyze": null,
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [],
+    "when": {
+      "kind": "BinaryExpr",
+      "left": {
+        "event": {
+          "bindingId": "blue.first_blood#any",
+          "eventType": "first_blood",
+          "kind": "EventRef",
+          "ordinal": "any",
+          "scope": {
+            "entity": "team",
+            "kind": "ScopeRef",
+            "side": "blue"
+          },
+          "surface": "first_blood"
+        },
+        "kind": "EventPredicate",
+        "negated": false
+      },
+      "op": "AND",
+      "right": {
+        "diagnosticCode": "E-SYN-002",
+        "kind": "ErrorExpr",
+        "rawText": ""
+      }
+    }
+  },
+  "kind": "Program"
+}

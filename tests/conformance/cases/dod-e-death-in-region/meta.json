@@ -1,0 +1,11 @@
+{
+  "name": "dod-e-death-in-region",
+  "descriptionKo": "특정 영역에서 죽은 경우의 승률",
+  "dod": "E",
+  "tags": [
+    "event",
+    "spatial",
+    "win_rate"
+  ],
+  "expectsErrors": false
+}

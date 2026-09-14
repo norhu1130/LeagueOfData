@@ -1,0 +1,51 @@
+{
+  "analyze": {
+    "entity": "team",
+    "kind": "ScopeRef",
+    "side": "blue"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "win_rate",
+          "kind": "CallExpr",
+          "scope": {
+            "entity": "team",
+            "kind": "ScopeRef",
+            "side": "blue"
+          }
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": {
+      "kind": "BinaryExpr",
+      "left": {
+        "at": {
+          "kind": "ClockLit",
+          "raw": "10:00",
+          "seconds": 600
+        },
+        "kind": "MeasureAt",
+        "measure": "gold_diff",
+        "scope": {
+          "entity": "team",
+          "kind": "ScopeRef",
+          "side": "blue"
+        }
+      },
+      "op": ">=",
+      "right": {
+        "kind": "NumberLit",
+        "value": 1500
+      }
+    }
+  },
+  "kind": "Program"
+}

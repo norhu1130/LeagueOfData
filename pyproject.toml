@@ -1,0 +1,25 @@
+[project]
+name = "leagueofdata"
+version = "0.0.0"
+requires-python = ">=3.12,<3.14"
+dependencies = ["lod-data", "lod-api"]
+
+[tool.uv.workspace]
+members = ["packages-py/lod_data", "services/api"]
+
+[tool.uv.sources]
+lod-data = { workspace = true }
+lod-api = { workspace = true }
+
+[dependency-groups]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.8", "httpx>=0.28"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["packages-py", "services", "tests", "bench"]

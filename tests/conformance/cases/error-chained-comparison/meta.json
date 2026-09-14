@@ -1,0 +1,8 @@
+{
+  "name": "error-chained-comparison",
+  "descriptionKo": "§29 — 비교를 연달아 쓴 경우",
+  "tags": [
+    "error"
+  ],
+  "expectsErrors": true
+}

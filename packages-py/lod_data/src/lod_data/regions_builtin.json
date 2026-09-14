@@ -1,0 +1,418 @@
+{
+  "$generated": "packages/data-model/scripts/export-reference.ts — 직접 수정하지 마세요",
+  "coordSpace": "norm-v1",
+  "map": {
+    "min": -120,
+    "span": 15000
+  },
+  "regions": [
+    {
+      "id": "top_lane",
+      "label": "탑 라인",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0,
+            0.28
+          ],
+          [
+            0.13,
+            0.28
+          ],
+          [
+            0.14,
+            0.85
+          ],
+          [
+            0.72,
+            0.87
+          ],
+          [
+            0.72,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "id": "bot_lane",
+      "label": "봇 라인",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.28,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            0.72
+          ],
+          [
+            0.87,
+            0.72
+          ],
+          [
+            0.85,
+            0.14
+          ],
+          [
+            0.28,
+            0.13
+          ]
+        ]
+      }
+    },
+    {
+      "id": "mid_lane",
+      "label": "미드 라인",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.16,
+            0.08
+          ],
+          [
+            0.92,
+            0.84
+          ],
+          [
+            0.84,
+            0.92
+          ],
+          [
+            0.08,
+            0.16
+          ]
+        ]
+      }
+    },
+    {
+      "id": "river",
+      "label": "강",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.915,
+            0.155
+          ],
+          [
+            0.155,
+            0.915
+          ],
+          [
+            0.085,
+            0.845
+          ],
+          [
+            0.845,
+            0.085
+          ]
+        ]
+      }
+    },
+    {
+      "id": "top_river",
+      "label": "탑 강 (바론 쪽)",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.535,
+            0.535
+          ],
+          [
+            0.155,
+            0.915
+          ],
+          [
+            0.085,
+            0.845
+          ],
+          [
+            0.465,
+            0.465
+          ]
+        ]
+      }
+    },
+    {
+      "id": "bot_river",
+      "label": "봇 강 (드래곤 쪽)",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.915,
+            0.155
+          ],
+          [
+            0.535,
+            0.535
+          ],
+          [
+            0.465,
+            0.465
+          ],
+          [
+            0.845,
+            0.085
+          ]
+        ]
+      }
+    },
+    {
+      "id": "blue_top_jungle",
+      "label": "블루 탑 정글",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.15,
+            0.21
+          ],
+          [
+            0.15,
+            0.79
+          ],
+          [
+            0.44,
+            0.5
+          ]
+        ]
+      }
+    },
+    {
+      "id": "blue_bot_jungle",
+      "label": "블루 봇 정글",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.21,
+            0.15
+          ],
+          [
+            0.79,
+            0.15
+          ],
+          [
+            0.5,
+            0.44
+          ]
+        ]
+      }
+    },
+    {
+      "id": "blue_jungle",
+      "label": "블루 정글",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "multi",
+        "parts": [
+          {
+            "kind": "polygon",
+            "points": [
+              [
+                0.15,
+                0.21
+              ],
+              [
+                0.15,
+                0.79
+              ],
+              [
+                0.44,
+                0.5
+              ]
+            ]
+          },
+          {
+            "kind": "polygon",
+            "points": [
+              [
+                0.21,
+                0.15
+              ],
+              [
+                0.79,
+                0.15
+              ],
+              [
+                0.5,
+                0.44
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "red_top_jungle",
+      "label": "레드 탑 정글",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.79,
+            0.85
+          ],
+          [
+            0.21,
+            0.85
+          ],
+          [
+            0.5,
+            0.56
+          ]
+        ]
+      }
+    },
+    {
+      "id": "red_bot_jungle",
+      "label": "레드 봇 정글",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "polygon",
+        "points": [
+          [
+            0.85,
+            0.79
+          ],
+          [
+            0.85,
+            0.21
+          ],
+          [
+            0.56,
+            0.5
+          ]
+        ]
+      }
+    },
+    {
+      "id": "red_jungle",
+      "label": "레드 정글",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "multi",
+        "parts": [
+          {
+            "kind": "polygon",
+            "points": [
+              [
+                0.79,
+                0.85
+              ],
+              [
+                0.21,
+                0.85
+              ],
+              [
+                0.5,
+                0.56
+              ]
+            ]
+          },
+          {
+            "kind": "polygon",
+            "points": [
+              [
+                0.85,
+                0.79
+              ],
+              [
+                0.85,
+                0.21
+              ],
+              [
+                0.56,
+                0.5
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "blue_base",
+      "label": "블루 본진",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "circle",
+        "cx": 0.06,
+        "cy": 0.06,
+        "r": 0.12
+      }
+    },
+    {
+      "id": "red_base",
+      "label": "레드 본진",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "circle",
+        "cx": 0.94,
+        "cy": 0.94,
+        "r": 0.12
+      }
+    },
+    {
+      "id": "dragon_pit",
+      "label": "드래곤 둥지",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "circle",
+        "cx": 0.6657,
+        "cy": 0.3023,
+        "r": 0.05
+      }
+    },
+    {
+      "id": "baron_pit",
+      "label": "바론 둥지",
+      "origin": "preset",
+      "coordSpace": "norm-v1",
+      "shape": {
+        "kind": "circle",
+        "cx": 0.338,
+        "cy": 0.7013,
+        "r": 0.05
+      }
+    }
+  ]
+}

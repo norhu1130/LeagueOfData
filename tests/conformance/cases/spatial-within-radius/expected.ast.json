@@ -1,0 +1,53 @@
+{
+  "analyze": {
+    "entity": "team",
+    "kind": "ScopeRef",
+    "side": "blue"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "win_rate",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": {
+      "kind": "SpatialPredicate",
+      "position": {
+        "field": "position",
+        "kind": "FieldAccess",
+        "object": {
+          "bindingId": "any.death#any",
+          "eventType": "death",
+          "kind": "EventRef",
+          "ordinal": "any",
+          "scope": null,
+          "surface": "death"
+        }
+      },
+      "radius": {
+        "kind": "NumberLit",
+        "value": 1000
+      },
+      "relation": "WITHIN_RADIUS",
+      "target": {
+        "field": "top_outer_turret",
+        "kind": "FieldAccess",
+        "object": {
+          "kind": "Identifier",
+          "name": "blue"
+        }
+      }
+    }
+  },
+  "kind": "Program"
+}

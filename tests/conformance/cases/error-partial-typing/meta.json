@@ -1,0 +1,9 @@
+{
+  "name": "error-partial-typing",
+  "descriptionKo": "§28 — 타이핑 중간 상태에서도 부분 AST가 나와야 한다",
+  "tags": [
+    "error",
+    "recovery"
+  ],
+  "expectsErrors": true
+}

@@ -1,0 +1,30 @@
+{
+  "analyze": null,
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [],
+    "when": {
+      "kind": "BinaryExpr",
+      "left": {
+        "field": "time",
+        "kind": "FieldAccess",
+        "object": {
+          "bindingId": "any.first_blood#any",
+          "eventType": "first_blood",
+          "kind": "EventRef",
+          "ordinal": "any",
+          "scope": null,
+          "surface": "first_blood"
+        }
+      },
+      "op": "<",
+      "right": {
+        "kind": "NumberLit",
+        "value": 90
+      }
+    }
+  },
+  "kind": "Program"
+}

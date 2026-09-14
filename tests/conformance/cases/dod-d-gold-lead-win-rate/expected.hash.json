@@ -1,0 +1,4 @@
+{
+  "hash": "sha256:6d0bcb5c554e1eddfbe0f0227f61d301272ce1d58de874f8cb25254f05d78b1e",
+  "canonicalJson": "{\"analyze\":{\"entity\":\"team\",\"kind\":\"ScopeRef\",\"side\":\"blue\"},\"body\":{\"chain\":null,\"groupBy\":[],\"kind\":\"SimpleStmt\",\"returns\":[{\"alias\":null,\"expr\":{\"args\":[],\"callee\":\"win_rate\",\"kind\":\"CallExpr\",\"scope\":{\"entity\":\"team\",\"kind\":\"ScopeRef\",\"side\":\"blue\"}},\"kind\":\"ReturnItem\"}],\"when\":{\"kind\":\"BinaryExpr\",\"left\":{\"at\":{\"kind\":\"ClockLit\",\"seconds\":600},\"kind\":\"MeasureAt\",\"measure\":\"gold_diff\",\"scope\":{\"entity\":\"team\",\"kind\":\"ScopeRef\",\"side\":\"blue\"}},\"op\":\">=\",\"right\":{\"kind\":\"NumberLit\",\"value\":1500}}},\"kind\":\"Program\"}"
+}

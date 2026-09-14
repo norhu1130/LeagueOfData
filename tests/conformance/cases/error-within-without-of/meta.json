@@ -1,0 +1,8 @@
+{
+  "name": "error-within-without-of",
+  "descriptionKo": "§29 — 거리 기준이 빠진 경우",
+  "tags": [
+    "error"
+  ],
+  "expectsErrors": true
+}

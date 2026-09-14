@@ -1,0 +1,9 @@
+{
+  "name": "bucket-time",
+  "descriptionKo": "퍼블 시각 구간별 승률",
+  "tags": [
+    "group-by",
+    "bucket"
+  ],
+  "expectsErrors": false
+}

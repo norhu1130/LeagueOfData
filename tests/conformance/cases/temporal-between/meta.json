@@ -1,0 +1,8 @@
+{
+  "name": "temporal-between",
+  "descriptionKo": "퍼블 시각이 특정 구간 안",
+  "tags": [
+    "temporal"
+  ],
+  "expectsErrors": false
+}

@@ -1,0 +1,9 @@
+{
+  "name": "spec-14-ex5-player-champion",
+  "descriptionKo": "§14 Example 5 — 선수 단위 챔피언·역할·골드 조건",
+  "tags": [
+    "player-grain",
+    "frame-measure"
+  ],
+  "expectsErrors": false
+}

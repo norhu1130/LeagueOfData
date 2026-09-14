@@ -1,0 +1,73 @@
+{
+  "analyze": {
+    "entity": "team",
+    "kind": "ScopeRef",
+    "side": "blue"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [
+            {
+              "args": [
+                {
+                  "bindingId": "blue.first_blood#any",
+                  "eventType": "first_blood",
+                  "kind": "EventRef",
+                  "ordinal": "any",
+                  "scope": {
+                    "entity": "team",
+                    "kind": "ScopeRef",
+                    "side": "blue"
+                  },
+                  "surface": "first_blood"
+                },
+                {
+                  "bindingId": "blue.turret_destroy#first",
+                  "eventType": "turret_destroy",
+                  "kind": "EventRef",
+                  "ordinal": "first",
+                  "scope": {
+                    "entity": "team",
+                    "kind": "ScopeRef",
+                    "side": "blue"
+                  },
+                  "surface": "first_turret_destroy"
+                }
+              ],
+              "callee": "duration",
+              "kind": "CallExpr",
+              "scope": null
+            }
+          ],
+          "callee": "avg",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": {
+      "event": {
+        "bindingId": "blue.first_blood#any",
+        "eventType": "first_blood",
+        "kind": "EventRef",
+        "ordinal": "any",
+        "scope": {
+          "entity": "team",
+          "kind": "ScopeRef",
+          "side": "blue"
+        },
+        "surface": "first_blood"
+      },
+      "kind": "EventPredicate",
+      "negated": false
+    }
+  },
+  "kind": "Program"
+}

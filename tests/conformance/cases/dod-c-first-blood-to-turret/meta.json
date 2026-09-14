@@ -1,0 +1,10 @@
+{
+  "name": "dod-c-first-blood-to-turret",
+  "descriptionKo": "퍼스트 블러드 이후 첫 타워까지 평균 시간",
+  "dod": "C",
+  "tags": [
+    "event",
+    "duration"
+  ],
+  "expectsErrors": false
+}

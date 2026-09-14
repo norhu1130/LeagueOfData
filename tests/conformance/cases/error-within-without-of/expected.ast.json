@@ -1,0 +1,35 @@
+{
+  "analyze": null,
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [],
+    "when": {
+      "kind": "SpatialPredicate",
+      "position": {
+        "field": "position",
+        "kind": "FieldAccess",
+        "object": {
+          "bindingId": "any.death#any",
+          "eventType": "death",
+          "kind": "EventRef",
+          "ordinal": "any",
+          "scope": null,
+          "surface": "death"
+        }
+      },
+      "radius": {
+        "kind": "NumberLit",
+        "value": 1000
+      },
+      "relation": "WITHIN_RADIUS",
+      "target": {
+        "diagnosticCode": "E-SYN-002",
+        "kind": "ErrorExpr",
+        "rawText": "RETURN"
+      }
+    }
+  },
+  "kind": "Program"
+}

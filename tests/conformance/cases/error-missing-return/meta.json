@@ -1,0 +1,8 @@
+{
+  "name": "error-missing-return",
+  "descriptionKo": "§29 — 결과를 정하지 않은 분석",
+  "tags": [
+    "error"
+  ],
+  "expectsErrors": true
+}

@@ -1,0 +1,3796 @@
+{
+  "$generated": "packages/catalog/scripts/build-json.ts — 직접 수정하지 마세요",
+  "catalogVersion": "2026.09.11",
+  "contextFields": {
+    "assist_count": {
+      "descriptionKo": "0이면 솔로킬",
+      "id": "assist_count",
+      "labelKo": "어시스트 수",
+      "rank": 10,
+      "sql": "assist_count",
+      "temporality": "in_game_at_t",
+      "type": "int"
+    },
+    "assistants": {
+      "descriptionKo": "처치를 도운 선수들",
+      "id": "assistants",
+      "labelKo": "어시스트",
+      "rank": 9,
+      "sql": "assist_ids",
+      "temporality": "in_game_at_t",
+      "type": "player[]"
+    },
+    "champion": {
+      "descriptionKo": "이 사건을 일으킨 선수의 챔피언",
+      "id": "champion",
+      "labelKo": "챔피언",
+      "rank": 5,
+      "sql": "champion_id",
+      "temporality": "in_game_at_t",
+      "type": "champion"
+    },
+    "item": {
+      "descriptionKo": "구매·판매한 아이템",
+      "id": "item",
+      "labelKo": "아이템",
+      "rank": 14,
+      "sql": "item_id",
+      "temporality": "in_game_at_t",
+      "type": "int"
+    },
+    "killer": {
+      "descriptionKo": "처치한 선수",
+      "id": "killer",
+      "labelKo": "처치자",
+      "rank": 7,
+      "sql": "participant_id",
+      "temporality": "in_game_at_t",
+      "type": "player"
+    },
+    "lane": {
+      "descriptionKo": "건물이 속한 라인",
+      "id": "lane",
+      "labelKo": "라인",
+      "rank": 11,
+      "sql": "lane_type",
+      "temporality": "in_game_at_t",
+      "type": "category"
+    },
+    "level": {
+      "descriptionKo": "레벨업 후 레벨",
+      "id": "level",
+      "labelKo": "레벨",
+      "rank": 16,
+      "sql": "level",
+      "temporality": "in_game_at_t",
+      "type": "int"
+    },
+    "monster_subtype": {
+      "allowedValues": [
+        "FIRE_DRAGON",
+        "AIR_DRAGON",
+        "EARTH_DRAGON",
+        "WATER_DRAGON",
+        "HEXTECH_DRAGON",
+        "CHEMTECH_DRAGON",
+        "ELDER_DRAGON",
+        "OTHER_DRAGON"
+      ],
+      "descriptionKo": "화염·바람·대지·바다 등",
+      "id": "monster_subtype",
+      "labelKo": "드래곤 속성",
+      "rank": 13,
+      "sql": "event_subtype",
+      "temporality": "in_game_at_t",
+      "type": "category"
+    },
+    "player": {
+      "descriptionKo": "이 사건을 일으킨 선수",
+      "id": "player",
+      "labelKo": "선수",
+      "rank": 4,
+      "sql": "participant_id",
+      "temporality": "in_game_at_t",
+      "type": "player"
+    },
+    "position": {
+      "descriptionKo": "이 사건이 일어난 맵 좌표",
+      "id": "position",
+      "labelKo": "위치",
+      "rank": 2,
+      "sql": {
+        "xNorm": "x_norm",
+        "xRaw": "x_raw",
+        "yNorm": "y_norm",
+        "yRaw": "y_raw"
+      },
+      "temporality": "in_game_at_t",
+      "type": "position"
+    },
+    "role": {
+      "allowedValues": [
+        "TOP",
+        "JUNGLE",
+        "MID",
+        "BOT",
+        "SUPPORT"
+      ],
+      "descriptionKo": "이 사건을 일으킨 선수의 라인 역할",
+      "id": "role",
+      "labelKo": "역할",
+      "rank": 6,
+      "sql": "role",
+      "temporality": "in_game_at_t",
+      "type": "role"
+    },
+    "team": {
+      "descriptionKo": "이 사건을 일으킨 팀",
+      "id": "team",
+      "labelKo": "팀",
+      "rank": 3,
+      "sql": "team_id",
+      "temporality": "in_game_at_t",
+      "type": "team"
+    },
+    "time": {
+      "descriptionKo": "경기 시작부터 이 사건까지 걸린 시간",
+      "id": "time",
+      "labelKo": "시간",
+      "rank": 1,
+      "sql": "timestamp_ms / 1000.0",
+      "temporality": "in_game_at_t",
+      "type": "duration"
+    },
+    "tower_type": {
+      "descriptionKo": "외곽·내부·억제기 앞·쌍둥이 포탑",
+      "id": "tower_type",
+      "labelKo": "포탑 종류",
+      "rank": 12,
+      "sql": "tower_type",
+      "temporality": "in_game_at_t",
+      "type": "category"
+    },
+    "victim": {
+      "descriptionKo": "처치당한 선수",
+      "id": "victim",
+      "labelKo": "피해자",
+      "rank": 8,
+      "sql": "victim_id",
+      "temporality": "in_game_at_t",
+      "type": "player"
+    },
+    "ward_type": {
+      "descriptionKo": "설치한 와드의 종류",
+      "id": "ward_type",
+      "labelKo": "와드 종류",
+      "rank": 15,
+      "sql": "ward_type",
+      "temporality": "in_game_at_t",
+      "type": "category"
+    }
+  },
+  "diagnostics": {
+    "E-EXE-001": {
+      "bodyKo": "앱이 업데이트되어 분석을 다시 열어야 합니다.",
+      "code": "E-EXE-001",
+      "severity": "error",
+      "titleKo": "분석 정의가 현재 버전과 맞지 않습니다"
+    },
+    "E-EXE-010": {
+      "bodyKo": "실행 중이던 분석을 중단했습니다.",
+      "code": "E-EXE-010",
+      "severity": "hint",
+      "titleKo": "분석을 취소했습니다"
+    },
+    "E-LEX-001": {
+      "bodyKo": "이 문자는 분석에서 쓸 수 없습니다.",
+      "code": "E-LEX-001",
+      "severity": "error",
+      "titleKo": "읽을 수 없는 문자가 있습니다"
+    },
+    "E-LEX-003": {
+      "bodyKo": "`90 s`는 인식되지 않습니다. `90s`처럼 공백 없이 써 주세요.",
+      "code": "E-LEX-003",
+      "severity": "error",
+      "titleKo": "시간 단위는 숫자에 붙여 쓰세요"
+    },
+    "E-LEX-007": {
+      "bodyKo": "문자열은 큰따옴표로 열고 닫아야 합니다.",
+      "code": "E-LEX-007",
+      "severity": "error",
+      "titleKo": "따옴표가 닫히지 않았습니다"
+    },
+    "E-LEX-008": {
+      "bodyKo": "`/*` 로 시작한 설명은 `*/` 로 닫아야 합니다.",
+      "code": "E-LEX-008",
+      "severity": "error",
+      "titleKo": "설명이 닫히지 않았습니다"
+    },
+    "E-SEM-010": {
+      "bodyKo": "이 이름의 사건은 없습니다. 아래 후보 중에서 골라 주세요.",
+      "code": "E-SEM-010",
+      "severity": "error",
+      "titleKo": "알 수 없는 사건입니다"
+    },
+    "E-SEM-011": {
+      "bodyKo": "이 사건이 가진 정보만 쓸 수 있습니다.",
+      "code": "E-SEM-011",
+      "severity": "error",
+      "titleKo": "이 사건에는 없는 정보입니다"
+    },
+    "E-SEM-012": {
+      "bodyKo": "이 이름의 측정값은 없습니다. 아래 목록에서 골라 주세요.",
+      "code": "E-SEM-012",
+      "severity": "error",
+      "titleKo": "알 수 없는 측정값입니다"
+    },
+    "E-SEM-013": {
+      "bodyKo": "진영은 블루 또는 레드입니다.",
+      "code": "E-SEM-013",
+      "severity": "error",
+      "titleKo": "알 수 없는 진영입니다"
+    },
+    "E-SEM-014": {
+      "bodyKo": "이 이름으로는 나눌 수 없습니다.",
+      "code": "E-SEM-014",
+      "severity": "error",
+      "titleKo": "알 수 없는 분류 기준입니다"
+    },
+    "E-SEM-020": {
+      "bodyKo": "데이터 출처가 이 사건을 제공하지 않아 분석에 쓸 수 없습니다.",
+      "code": "E-SEM-020",
+      "severity": "error",
+      "titleKo": "이 데이터에는 없는 사건입니다"
+    },
+    "E-SEM-031": {
+      "bodyKo": "\"걸린 시간\"은 두 사건 사이의 간격을 계산합니다. 지금은 끝나는 사건만 정해져 있습니다.",
+      "code": "E-SEM-031",
+      "severity": "error",
+      "titleKo": "시간을 재려면 시작 사건이 필요합니다"
+    },
+    "E-SEM-032": {
+      "bodyKo": "평균은 숫자나 시간에만 쓸 수 있습니다. 사건 자체는 평균을 낼 수 없습니다.",
+      "code": "E-SEM-032",
+      "severity": "error",
+      "titleKo": "평균을 낼 값이 필요합니다"
+    },
+    "E-SEM-033": {
+      "bodyKo": "이 측정값을 계산하려면 값이 더 필요합니다.",
+      "code": "E-SEM-033",
+      "severity": "error",
+      "titleKo": "필요한 값이 빠졌습니다"
+    },
+    "E-SEM-034": {
+      "bodyKo": "이 자리에는 경기 중 일어난 일이 들어갑니다.",
+      "code": "E-SEM-034",
+      "severity": "error",
+      "titleKo": "사건이 와야 하는 자리입니다"
+    },
+    "E-SEM-035": {
+      "bodyKo": "사건이 몇 번 일어났는지, 얼마나 걸렸는지 같은 측정값을 골라 주세요.",
+      "code": "E-SEM-035",
+      "severity": "error",
+      "titleKo": "사건 자체는 결과가 될 수 없습니다"
+    },
+    "E-SEM-040": {
+      "bodyKo": "위치에는 영역 조건을, 시간에는 시간 조건을 쓰세요.",
+      "code": "E-SEM-040",
+      "severity": "error",
+      "titleKo": "위치는 시간과 비교할 수 없습니다"
+    },
+    "E-SEM-041": {
+      "bodyKo": "이 영역은 이 분석에 없습니다. 미니맵에서 새로 그리거나 기본 영역을 쓰세요.",
+      "code": "E-SEM-041",
+      "severity": "error",
+      "titleKo": "정의되지 않은 영역입니다"
+    },
+    "E-SEM-042": {
+      "bodyKo": "미니맵에서 그린 영역과 게임 좌표 거리를 함께 쓸 수 없습니다.",
+      "code": "E-SEM-042",
+      "severity": "error",
+      "titleKo": "좌표계가 섞였습니다"
+    },
+    "E-SEM-043": {
+      "bodyKo": "같은 종류의 값끼리만 비교할 수 있습니다.",
+      "code": "E-SEM-043",
+      "severity": "error",
+      "titleKo": "서로 비교할 수 없는 값입니다"
+    },
+    "E-SEM-050": {
+      "bodyKo": "승률이 경기 기준인지 팀 기준인지 알 수 없습니다. 분석 대상을 정해 주세요.",
+      "code": "E-SEM-050",
+      "severity": "error",
+      "titleKo": "분석 단위가 모호합니다"
+    },
+    "E-SEM-051": {
+      "bodyKo": "한 팀에는 챔피언이 5명입니다. 선수 단위로 바꾸면 챔피언별로 나눌 수 있습니다.",
+      "code": "E-SEM-051",
+      "severity": "error",
+      "titleKo": "팀 단위 분석은 챔피언으로 묶을 수 없습니다"
+    },
+    "E-SEM-052": {
+      "bodyKo": "측정값마다 계산할 수 있는 분석 단위가 정해져 있습니다.",
+      "code": "E-SEM-052",
+      "severity": "error",
+      "titleKo": "이 분석 단위에서는 쓸 수 없는 측정값입니다"
+    },
+    "E-SEM-053": {
+      "bodyKo": "분류 기준마다 쓸 수 있는 분석 단위가 정해져 있습니다.",
+      "code": "E-SEM-053",
+      "severity": "error",
+      "titleKo": "이 분석 단위를 그 기준으로 나눌 수 없습니다"
+    },
+    "E-SEM-054": {
+      "bodyKo": "비교 조건 또는 분류 기준 중 하나만 사용해 주세요.",
+      "code": "E-SEM-054",
+      "severity": "error",
+      "titleKo": "비교와 분류를 동시에 실행할 수 없습니다"
+    },
+    "E-SEM-056": {
+      "bodyKo": "시작 사건의 상대팀은 이어지는 사건의 끝 팀에서만 사용할 수 있습니다.",
+      "code": "E-SEM-056",
+      "severity": "error",
+      "titleKo": "상대팀의 기준 사건이 필요합니다"
+    },
+    "E-SEM-060": {
+      "bodyKo": "무엇 이후에 무엇이 일어났는지를 물어야 성공률을 셀 수 있습니다.",
+      "code": "E-SEM-060",
+      "severity": "error",
+      "titleKo": "성공률은 기준 사건이 필요합니다"
+    },
+    "E-SEM-070": {
+      "bodyKo": "이 시각까지 이어진 경기가 적어 표본이 크게 줄어듭니다.",
+      "code": "E-SEM-070",
+      "severity": "warning",
+      "titleKo": "시점이 대부분의 경기보다 깁니다"
+    },
+    "E-SYN-001": {
+      "bodyKo": "분석은 결과가 있어야 합니다. 승률이나 경기 수 같은 측정값을 하나 고르세요.",
+      "code": "E-SYN-001",
+      "severity": "error",
+      "titleKo": "무엇을 계산할지 정해 주세요"
+    },
+    "E-SYN-002": {
+      "bodyKo": "조건이나 값이 와야 하는 자리입니다.",
+      "code": "E-SYN-002",
+      "severity": "error",
+      "titleKo": "여기에 올 수 없는 것입니다"
+    },
+    "E-SYN-003": {
+      "bodyKo": "여는 괄호에 대응하는 닫는 괄호가 필요합니다.",
+      "code": "E-SYN-003",
+      "severity": "error",
+      "titleKo": "괄호가 닫히지 않았습니다"
+    },
+    "E-SYN-004": {
+      "bodyKo": "어떤 기준으로 나눌지 정해 주세요.",
+      "code": "E-SYN-004",
+      "severity": "error",
+      "titleKo": "무엇으로 나눌지 필요합니다"
+    },
+    "E-SYN-012": {
+      "bodyKo": "`a < b < c` 형태는 지원하지 않습니다. `a < b 그리고 b < c`로 나눠 주세요.",
+      "code": "E-SYN-012",
+      "severity": "error",
+      "titleKo": "비교를 연달아 쓸 수 없습니다"
+    },
+    "E-SYN-021": {
+      "bodyKo": "거리 조건은 기준이 되는 위치가 있어야 합니다. 시간을 뜻했다면 `90s`처럼 단위를 붙이세요.",
+      "code": "E-SYN-021",
+      "severity": "error",
+      "titleKo": "무엇을 기준으로 할지 필요합니다"
+    },
+    "E-SYN-022": {
+      "bodyKo": "얼마 안에 일어난 일을 볼지 정해 주세요.",
+      "code": "E-SYN-022",
+      "severity": "error",
+      "titleKo": "시간이 필요합니다"
+    },
+    "E-SYN-023": {
+      "bodyKo": "시작과 끝을 모두 정해 주세요.",
+      "code": "E-SYN-023",
+      "severity": "error",
+      "titleKo": "범위의 끝이 필요합니다"
+    },
+    "E-SYN-024": {
+      "bodyKo": "언제를 기준으로 잴지 정해 주세요.",
+      "code": "E-SYN-024",
+      "severity": "error",
+      "titleKo": "시점이 필요합니다"
+    },
+    "E-SYN-030": {
+      "bodyKo": "비교 분석은 서로 다른 두 조건을 나란히 놓습니다.",
+      "code": "E-SYN-030",
+      "severity": "error",
+      "titleKo": "비교하려면 대상이 둘 이상 필요합니다"
+    },
+    "W-SEM-080": {
+      "bodyKo": "경기가 끝나야 정해지는 값을 조건으로 쓰면, 결과가 조건 안에 미리 들어가 승률이 부풀려집니다.",
+      "code": "W-SEM-080",
+      "severity": "warning",
+      "titleKo": "조건에 결과가 섞여 있습니다"
+    }
+  },
+  "dslLanguage": {
+    "constructs": [
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Clause order is ANALYZE, AFTER, WHEN, GROUP BY, RETURN.",
+          "RETURN is mandatory. ANALYZE, AFTER, WHEN, and GROUP BY are optional.",
+          "A chain IF condition must be an event or a filter on that same event; success_rate() requires a chain.",
+          "success_rate() keeps all trigger events in its denominator. Other measures keep only successful follow-ups."
+        ],
+        "engine": true,
+        "id": "clauses",
+        "parser": true,
+        "syntax": [
+          "ANALYZE",
+          "AFTER ... WITHIN ... IF ...",
+          "WHEN",
+          "GROUP BY",
+          "RETURN"
+        ],
+        "visualBuilder": "full"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "At least two arms are required.",
+          "Multiple RETURN measures are evaluated for every comparison arm.",
+          "COMPARE and GROUP BY cannot be combined by the current engine."
+        ],
+        "engine": true,
+        "id": "compare",
+        "parser": true,
+        "syntax": [
+          "COMPARE WHEN condition [AS label] VS WHEN condition [AS label]",
+          "VS ..."
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "team.event means either team.",
+          "opponent.event is valid only for the IF event of a chain and is relative to its trigger.",
+          "An unscoped team event inherits the ANALYZE team side when one exists."
+        ],
+        "engine": true,
+        "id": "team_scopes",
+        "parser": true,
+        "syntax": [
+          "team.event",
+          "blue.event",
+          "red.event",
+          "opponent.event"
+        ],
+        "visualBuilder": "full"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Player attributes and measures must be valid at player grain."
+        ],
+        "engine": true,
+        "id": "player_scope",
+        "parser": true,
+        "syntax": [
+          "ANALYZE player",
+          "ANALYZE player(\"selector\")"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Use parentheses whenever AND and OR are mixed."
+        ],
+        "engine": true,
+        "id": "boolean_logic",
+        "parser": true,
+        "syntax": [
+          "NOT condition",
+          "condition AND condition",
+          "condition OR condition"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Opponent presence works at team or player grain; ally and role matchup conditions use player grain.",
+          "Returns true when at least one opposing-team participant selected one of the supplied champion names.",
+          "Use exact dataset champion names supplied in the capability manifest."
+        ],
+        "engine": true,
+        "id": "opponent_roster",
+        "parser": true,
+        "syntax": [
+          "opponent_has_champion(\"Aatrox\", \"Vladimir\")",
+          "opponent_has_champion_in_role(\"LeBlanc\", \"MID\")",
+          "ally_has_champion(\"Rakan\")"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Use only at team or player grain.",
+          "The first argument is a game clock and the remaining arguments are 1 to 20 item IDs.",
+          "purchased_item_by checks whether any selected item was purchased by the cutoff.",
+          "owns_item_at reconstructs inventory from purchases, sales, destruction, and undo events.",
+          "An unscoped call targets the analyzed team or player; opponent. targets the opposing team.",
+          "Matches shorter than the requested landmark are excluded before conditions are evaluated."
+        ],
+        "engine": true,
+        "id": "point_in_time_items",
+        "parser": true,
+        "syntax": [
+          "purchased_item_by(15:00, 3165, 6609)",
+          "owns_item_at(15:00, 3165, 6609)",
+          "NOT owns_item_at(15:00, 3165, 6609)"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Comparison operators are non-associative; write a < b AND b < c, never a < b < c.",
+          "The left side must be an executable frame measure, event field, or subject attribute.",
+          "<> is parsed as != and canonical output uses !=."
+        ],
+        "engine": true,
+        "id": "comparisons",
+        "parser": true,
+        "syntax": [
+          "=",
+          "!=",
+          "<>",
+          ">",
+          ">=",
+          "<",
+          "<="
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "n is an integer from 1 through 255 and counts matching events in timestamp and event-ID order.",
+          "first selects the first matching event and last selects the final matching event.",
+          "A field comparison on event[n] reads that same selected event row."
+        ],
+        "engine": true,
+        "id": "event_occurrence",
+        "parser": true,
+        "syntax": [
+          "event[n]",
+          "scope.event[n]",
+          "event[first]",
+          "event[last]",
+          "scope.event[first]",
+          "scope.event[last]"
+        ],
+        "visualBuilder": "full"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Use only fields listed in that event context.",
+          "A repeatable event used as a scalar value requires a first_ or last_ event alias."
+        ],
+        "engine": true,
+        "id": "event_fields",
+        "parser": true,
+        "syntax": [
+          "event.field",
+          "scoped_event.field"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Use an exact supplied region ID and an event that exposes position."
+        ],
+        "engine": true,
+        "id": "region_containment",
+        "parser": true,
+        "syntax": [
+          "event.position IN region(\"id\")"
+        ],
+        "visualBuilder": "full"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Distance is in raw game units.",
+          "The target must be an exact supplied landmark ID."
+        ],
+        "engine": true,
+        "id": "radius_distance",
+        "parser": true,
+        "syntax": [
+          "event.position WITHIN number OF landmark"
+        ],
+        "visualBuilder": "none"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Both operands must resolve to events."
+        ],
+        "engine": true,
+        "id": "event_temporal_gap",
+        "parser": true,
+        "syntax": [
+          "event AFTER event",
+          "event AFTER event WITHIN duration",
+          "event BEFORE event",
+          "event BEFORE event WITHIN duration"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "The event must expose time."
+        ],
+        "engine": true,
+        "id": "event_time_predicates",
+        "parser": true,
+        "syntax": [
+          "event WITHIN duration",
+          "event AT clock",
+          "event.time BETWEEN duration AND duration"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Use only the grains and signatures supplied for each function."
+        ],
+        "engine": true,
+        "id": "frame_measures",
+        "parser": true,
+        "syntax": [
+          "scope.gold_diff(clock)",
+          "scope.xp_diff(clock)",
+          "scope.kill_diff(clock)"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "RETURN expressions must be aggregate functions.",
+          "duration() is a scalar value and must be nested in an aggregate such as avg().",
+          "pick_rate() is match-grain only and counts distinct matches where the named champion appears.",
+          "Champion overview measures are match-grain only so their sample is reported in matches.",
+          "Function signatures and valid grains in the catalog are authoritative."
+        ],
+        "engine": true,
+        "id": "aggregates",
+        "parser": true,
+        "syntax": [
+          "win_rate()",
+          "loss_rate()",
+          "count([value])",
+          "rate(condition)",
+          "pick_rate(\"Ahri\")",
+          "ban_rate(\"Ahri\")",
+          "champion_win_rate(\"Ahri\")",
+          "champion_games(\"Ahri\")",
+          "role_pick_rate(\"Ahri\", \"MID\")",
+          "success_rate()",
+          "avg(value)",
+          "median(value)",
+          "sum(value)",
+          "min(value)",
+          "max(value)",
+          "duration(start_event, end_event)"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Use only supplied group keys valid for the analysis grain.",
+          "bucket() currently accepts only an event time field and a positive size.",
+          "An event context field used for grouping must select an unambiguous numbered occurrence."
+        ],
+        "engine": true,
+        "id": "grouping",
+        "parser": true,
+        "syntax": [
+          "GROUP BY group_key [AS alias]",
+          "GROUP BY bucket(event.time, duration)",
+          "GROUP BY numbered_event.context_field"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Duration parts have no whitespace.",
+          "A percent literal is normalized to a decimal number.",
+          "Use literals only where the receiving expression accepts their type."
+        ],
+        "engine": true,
+        "id": "literals",
+        "parser": true,
+        "syntax": [
+          "123",
+          "12.5",
+          "55%",
+          "\"text\"",
+          "90s",
+          "1m30s",
+          "1h2m3s",
+          "10:00",
+          "1:02:30",
+          "true",
+          "false"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "Aliases are unquoted identifiers."
+        ],
+        "engine": true,
+        "id": "aliases",
+        "parser": true,
+        "syntax": [
+          "COMPARE WHEN condition AS label",
+          "GROUP BY expression AS alias",
+          "RETURN expression AS alias"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": true,
+        "constraints": [
+          "The left side must be an executable event field or subject attribute.",
+          "The list must contain one or more literals compatible with the left side.",
+          "Wrap an event-field membership in all_values(...) to require every listed value."
+        ],
+        "engine": true,
+        "id": "membership",
+        "parser": true,
+        "syntax": [
+          "value IN (value, ...)",
+          "value NOT IN (value, ...)"
+        ],
+        "visualBuilder": "partial"
+      },
+      {
+        "aiGenerate": false,
+        "constraints": [
+          "Reserved for future execution support. Do not generate."
+        ],
+        "engine": false,
+        "id": "arithmetic",
+        "parser": true,
+        "syntax": [
+          "+",
+          "-",
+          "*",
+          "/",
+          "%",
+          "unary -"
+        ],
+        "visualBuilder": "none"
+      },
+      {
+        "aiGenerate": false,
+        "constraints": [
+          "NEAR has no executable distance definition. Do not generate."
+        ],
+        "engine": false,
+        "id": "near",
+        "parser": true,
+        "syntax": [
+          "event.position NEAR landmark"
+        ],
+        "visualBuilder": "none"
+      },
+      {
+        "aiGenerate": false,
+        "constraints": [
+          "Reserved for future execution support. Do not generate."
+        ],
+        "engine": false,
+        "id": "during_until",
+        "parser": true,
+        "syntax": [
+          "value DURING value",
+          "value UNTIL value"
+        ],
+        "visualBuilder": "none"
+      },
+      {
+        "aiGenerate": false,
+        "constraints": [
+          "NULL comparisons are not executable. Do not generate."
+        ],
+        "engine": false,
+        "id": "null_literal",
+        "parser": true,
+        "syntax": [
+          "null"
+        ],
+        "visualBuilder": "none"
+      },
+      {
+        "aiGenerate": false,
+        "constraints": [
+          "Comments are discarded from the AST. AI-generated DSL must omit comments."
+        ],
+        "engine": true,
+        "id": "comments",
+        "parser": true,
+        "syntax": [
+          "-- line comment",
+          "/* block comment */"
+        ],
+        "visualBuilder": "none"
+      }
+    ],
+    "ebnf": [
+      "program = [ analyze_clause ] ( simple_statement | compare_statement ) ;",
+      "analyze_clause = \"ANALYZE\" scope ;",
+      "simple_statement = [ chain_clause ] [ when_clause ] [ group_clause ] return_clause ;",
+      "compare_statement = \"COMPARE\" compare_arm ( \"VS\" compare_arm )+ [ group_clause ] return_clause ;",
+      "compare_arm = \"WHEN\" expression [ \"AS\" identifier ] ;",
+      "chain_clause = \"AFTER\" event_ref [ \"WITHIN\" duration ] [ \"IF\" expression ] ;",
+      "when_clause = \"WHEN\" expression ;",
+      "group_clause = \"GROUP\" \"BY\" group_item ( \",\" group_item )* ;",
+      "group_item = expression [ \"AS\" identifier ] ;",
+      "return_clause = \"RETURN\" return_item ( \",\" return_item )* ;",
+      "return_item = expression [ \"AS\" identifier ] ;",
+      "scope = \"match\" | \"team\" | \"blue\" | \"red\" | \"team.blue\" | \"team.red\" | \"opponent\" | \"player\" | \"player(\" string \")\" ;",
+      "expression = logical_or ;",
+      "logical_or = logical_and ( \"OR\" logical_and )* ;",
+      "logical_and = logical_not ( \"AND\" logical_not )* ;",
+      "logical_not = [ \"NOT\" ] relational ;",
+      "relational = additive [ comparison | membership | spatial | temporal ] ;",
+      "comparison = ( \"=\" | \"!=\" | \"<>\" | \">\" | \">=\" | \"<\" | \"<=\" ) additive ;",
+      "membership = [ \"NOT\" ] \"IN\" ( \"(\" expression ( \",\" expression )* \")\" | expression ) ;",
+      "spatial = \"IN\" region_ref | \"WITHIN\" number \"OF\" landmark | \"NEAR\" landmark ;",
+      "temporal = ( \"BEFORE\" | \"AFTER\" ) event_ref [ \"WITHIN\" duration ] | \"WITHIN\" duration [ ( \"BEFORE\" | \"AFTER\" ) event_ref ] | \"BETWEEN\" additive \"AND\" additive | \"AT\" additive | ( \"DURING\" | \"UNTIL\" ) additive ;",
+      "additive = multiplicative ( ( \"+\" | \"-\" ) multiplicative )* ;",
+      "multiplicative = unary ( ( \"*\" | \"/\" | \"%\" ) unary )* ;",
+      "unary = [ \"-\" ] postfix ;",
+      "postfix = primary ( \".\" identifier | \"(\" [ expression ( \",\" expression )* ] \")\" | \"[\" occurrence \"]\" )* ;",
+      "primary = number | percent | duration | clock | string | boolean | \"null\" | identifier | \"(\" expression \")\" ;",
+      "region_ref = \"region(\" string \")\" ;",
+      "event_ref = [ event_scope \".\" ] event_surface [ \"[\" occurrence \"]\" ] ;",
+      "occurrence = positive_integer | \"first\" | \"last\" ;",
+      "event_scope = \"team\" | \"blue\" | \"red\" | \"opponent\" ;",
+      "landmark = identifier \".\" identifier ;",
+      "identifier = ASCII letter or underscore followed by ASCII letters, digits, or underscores ;",
+      "number = unsigned integer or decimal ;",
+      "percent = number \"%\" ;",
+      "string = double-quoted text with backslash escapes for n, r, t, double quote, and backslash ;",
+      "boolean = \"true\" | \"false\" ;",
+      "duration = attached duration parts such as 90s, 1m30s, or 1h2m3s ;",
+      "clock = MM:SS or HH:MM:SS with two-digit non-leading fields below 60 ;",
+      "trivia = whitespace | \"--\" line comment | \"/*\" block comment \"*/\" ;"
+    ],
+    "generationRules": [
+      "Generate only constructs where aiGenerate is true.",
+      "All generated DSL must parse, validate semantically, and execute without a future-only construct.",
+      "Prefer constructs with visualBuilder full or partial support so the result remains editable as cards.",
+      "Never infer an event field, function signature, grain, landmark, or region that is not supplied."
+    ],
+    "precedence": [
+      {
+        "associativity": "left",
+        "level": 1,
+        "operators": [
+          "OR"
+        ]
+      },
+      {
+        "associativity": "left",
+        "level": 2,
+        "operators": [
+          "AND"
+        ]
+      },
+      {
+        "associativity": "right",
+        "level": 3,
+        "operators": [
+          "NOT"
+        ]
+      },
+      {
+        "associativity": "none",
+        "level": 4,
+        "operators": [
+          "=",
+          "!=",
+          "<>",
+          ">",
+          ">=",
+          "<",
+          "<=",
+          "IN",
+          "NOT IN",
+          "WITHIN",
+          "NEAR",
+          "BEFORE",
+          "AFTER",
+          "DURING",
+          "UNTIL",
+          "BETWEEN",
+          "AT"
+        ]
+      },
+      {
+        "associativity": "left",
+        "level": 5,
+        "operators": [
+          "+",
+          "-"
+        ]
+      },
+      {
+        "associativity": "left",
+        "level": 6,
+        "operators": [
+          "*",
+          "/",
+          "%"
+        ]
+      },
+      {
+        "associativity": "right",
+        "level": 7,
+        "operators": [
+          "unary -"
+        ]
+      },
+      {
+        "associativity": "left",
+        "level": 8,
+        "operators": [
+          ".",
+          "()"
+        ]
+      }
+    ],
+    "version": "2026.09.9"
+  },
+  "entities": {
+    "champion": {
+      "descriptionKo": "선수가 선택한 챔피언",
+      "id": "champion",
+      "labelKo": "챔피언",
+      "surfaces": [
+        "champion"
+      ]
+    },
+    "event": {
+      "descriptionKo": "경기 중 일어난 일",
+      "id": "event",
+      "labelKo": "사건",
+      "surfaces": [
+        "event"
+      ]
+    },
+    "item": {
+      "descriptionKo": "구매·판매하는 장비",
+      "id": "item",
+      "labelKo": "아이템",
+      "surfaces": [
+        "item"
+      ]
+    },
+    "match": {
+      "descriptionKo": "한 판의 게임",
+      "id": "match",
+      "labelKo": "경기",
+      "surfaces": [
+        "match"
+      ]
+    },
+    "objective": {
+      "descriptionKo": "드래곤·바론·전령·포탑 등 중립 목표물",
+      "id": "objective",
+      "labelKo": "오브젝트",
+      "surfaces": [
+        "objective",
+        "dragon",
+        "baron",
+        "herald",
+        "turret"
+      ]
+    },
+    "player": {
+      "descriptionKo": "한 경기에 참여한 한 명",
+      "id": "player",
+      "labelKo": "선수",
+      "surfaces": [
+        "player"
+      ]
+    },
+    "position": {
+      "descriptionKo": "맵 위의 좌표",
+      "id": "position",
+      "labelKo": "위치",
+      "surfaces": [
+        "position"
+      ]
+    },
+    "region": {
+      "descriptionKo": "미니맵에서 지정한 영역",
+      "id": "region",
+      "labelKo": "지역",
+      "surfaces": [
+        "region"
+      ]
+    },
+    "team": {
+      "descriptionKo": "블루 또는 레드 진영",
+      "id": "team",
+      "labelKo": "팀",
+      "surfaces": [
+        "team",
+        "blue",
+        "red",
+        "team.blue",
+        "team.red"
+      ]
+    }
+  },
+  "events": {
+    "baron_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion"
+      ],
+      "descriptionKo": "내셔 남작을 처치한 사건입니다.",
+      "id": "baron_kill",
+      "labelKo": "바론 처치",
+      "rank": 9,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'baron_kill'"
+      }
+    },
+    "baron_spawn": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position"
+      ],
+      "descriptionKo": "내셔 남작이 나타난 시각입니다.",
+      "id": "baron_spawn",
+      "labelKo": "바론 생성",
+      "rank": 21,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "monster_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'baron_spawn'"
+      }
+    },
+    "champion_level_up": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "team",
+        "player",
+        "champion",
+        "role",
+        "level"
+      ],
+      "descriptionKo": "챔피언 레벨이 올라간 사건입니다.",
+      "id": "champion_level_up",
+      "labelKo": "레벨업",
+      "rank": 17,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "level"
+        ],
+        "table": "events",
+        "where": "event_type = 'champion_level_up'"
+      }
+    },
+    "chemtech_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "화학공학 용을 처치한 사건입니다.",
+      "id": "chemtech_dragon_kill",
+      "labelKo": "화학공학 용 처치",
+      "qualifierValue": "CHEMTECH_DRAGON",
+      "rank": 35,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'CHEMTECH_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "cloud_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "바람 용을 처치한 사건입니다.",
+      "id": "cloud_dragon_kill",
+      "labelKo": "바람 용 처치",
+      "qualifierValue": "AIR_DRAGON",
+      "rank": 31,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'AIR_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "death": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "role",
+        "killer",
+        "assist_count"
+      ],
+      "descriptionKo": "챔피언이 처치당한 사건입니다. 처치와 같은 사건을 피해자 관점에서 본 것입니다.",
+      "id": "death",
+      "labelKo": "사망",
+      "rank": 3,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "participant_id",
+          "team_id",
+          "champion_id",
+          "role",
+          "killer_id",
+          "killer_team_id",
+          "assist_count",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position"
+        ],
+        "table": "v_deaths",
+        "where": "TRUE"
+      },
+      "teamPerspective": "victim"
+    },
+    "dragon_kill": {
+      "aliases": {
+        "first_dragon_kill": {
+          "ordinal": "first"
+        }
+      },
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "드래곤을 처치한 사건입니다.",
+      "id": "dragon_kill",
+      "labelKo": "드래곤 처치",
+      "qualifiers": [
+        {
+          "field": "monster_subtype",
+          "labelKo": "용 종류",
+          "options": [
+            {
+              "eventId": "infernal_dragon_kill",
+              "labelKo": "화염 용",
+              "value": "FIRE_DRAGON"
+            },
+            {
+              "eventId": "cloud_dragon_kill",
+              "labelKo": "바람 용",
+              "value": "AIR_DRAGON"
+            },
+            {
+              "eventId": "mountain_dragon_kill",
+              "labelKo": "대지 용",
+              "value": "EARTH_DRAGON"
+            },
+            {
+              "eventId": "ocean_dragon_kill",
+              "labelKo": "바다 용",
+              "value": "WATER_DRAGON"
+            },
+            {
+              "eventId": "hextech_dragon_kill",
+              "labelKo": "마법공학 용",
+              "value": "HEXTECH_DRAGON"
+            },
+            {
+              "eventId": "chemtech_dragon_kill",
+              "labelKo": "화학공학 용",
+              "value": "CHEMTECH_DRAGON"
+            },
+            {
+              "eventId": "elder_dragon_kill",
+              "labelKo": "장로 드래곤",
+              "value": "ELDER_DRAGON"
+            },
+            {
+              "eventId": "other_dragon_kill",
+              "labelKo": "기타 용",
+              "value": "OTHER_DRAGON"
+            }
+          ]
+        }
+      ],
+      "rank": 8,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill'"
+      }
+    },
+    "dragon_soul_acquired": {
+      "atMostOncePerMatch": true,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "한 팀이 네 번째 원소 드래곤을 처치해 용 영혼을 획득한 사건입니다.",
+      "id": "dragon_soul_acquired",
+      "labelKo": "용 영혼 획득",
+      "rank": 9,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "v_dragon_soul_acquired",
+        "where": "TRUE"
+      }
+    },
+    "dragon_spawn": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position"
+      ],
+      "descriptionKo": "드래곤이 둥지에 나타난 시각입니다.",
+      "id": "dragon_spawn",
+      "labelKo": "드래곤 생성",
+      "rank": 20,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "monster_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_spawn'"
+      }
+    },
+    "elder_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "장로 드래곤을 처치한 사건입니다.",
+      "id": "elder_dragon_kill",
+      "labelKo": "장로 드래곤 처치",
+      "qualifierValue": "ELDER_DRAGON",
+      "rank": 36,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'ELDER_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "first_blood": {
+      "atMostOncePerMatch": true,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "role",
+        "killer",
+        "victim",
+        "assistants",
+        "assist_count"
+      ],
+      "descriptionKo": "경기에서 최초로 발생한 챔피언 처치입니다.",
+      "id": "first_blood",
+      "labelKo": "퍼스트 블러드",
+      "rank": 2,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "is_first_of_type",
+          "victim_id",
+          "victim_team_id",
+          "assist_ids",
+          "assist_count"
+        ],
+        "table": "events",
+        "where": "event_type = 'kill' AND is_first_of_type"
+      }
+    },
+    "grub_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion"
+      ],
+      "descriptionKo": "공허 유충을 처치한 사건입니다.",
+      "id": "grub_kill",
+      "labelKo": "공허충 처치",
+      "rank": 11,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "monster_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'grub_kill'"
+      }
+    },
+    "herald_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion"
+      ],
+      "descriptionKo": "협곡의 전령을 처치한 사건입니다.",
+      "id": "herald_kill",
+      "labelKo": "전령 처치",
+      "rank": 10,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'herald_kill'"
+      }
+    },
+    "herald_spawn": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position"
+      ],
+      "descriptionKo": "협곡의 전령이 나타난 시각입니다.",
+      "id": "herald_spawn",
+      "labelKo": "전령 생성",
+      "rank": 22,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "monster_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'herald_spawn'"
+      }
+    },
+    "hextech_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "마법공학 용을 처치한 사건입니다.",
+      "id": "hextech_dragon_kill",
+      "labelKo": "마법공학 용 처치",
+      "qualifierValue": "HEXTECH_DRAGON",
+      "rank": 34,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'HEXTECH_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "infernal_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "화염 용을 처치한 사건입니다.",
+      "id": "infernal_dragon_kill",
+      "labelKo": "화염 용 처치",
+      "qualifierValue": "FIRE_DRAGON",
+      "rank": 30,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'FIRE_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "inhibitor_destroy": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "lane"
+      ],
+      "descriptionKo": "억제기를 파괴한 사건입니다.",
+      "id": "inhibitor_destroy",
+      "labelKo": "억제기 파괴",
+      "rank": 7,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "lane_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'inhibitor_destroy'"
+      }
+    },
+    "item_purchase": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "team",
+        "player",
+        "champion",
+        "role",
+        "item"
+      ],
+      "descriptionKo": "아이템을 구매한 사건입니다.",
+      "id": "item_purchase",
+      "labelKo": "아이템 구매",
+      "rank": 14,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "item_id"
+        ],
+        "table": "events",
+        "where": "event_type = 'item_purchase'"
+      }
+    },
+    "item_sell": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "team",
+        "player",
+        "champion",
+        "item"
+      ],
+      "descriptionKo": "아이템을 판매한 사건입니다.",
+      "id": "item_sell",
+      "labelKo": "아이템 판매",
+      "rank": 15,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "item_id"
+        ],
+        "table": "events",
+        "where": "event_type = 'item_sell'"
+      }
+    },
+    "kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "role",
+        "killer",
+        "victim",
+        "assistants",
+        "assist_count"
+      ],
+      "descriptionKo": "챔피언을 처치한 사건입니다.",
+      "id": "kill",
+      "labelKo": "처치",
+      "rank": 2,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "victim_id",
+          "victim_team_id",
+          "assist_ids",
+          "assist_count"
+        ],
+        "table": "events",
+        "where": "event_type = 'kill'"
+      }
+    },
+    "mountain_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "대지 용을 처치한 사건입니다.",
+      "id": "mountain_dragon_kill",
+      "labelKo": "대지 용 처치",
+      "qualifierValue": "EARTH_DRAGON",
+      "rank": 32,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'EARTH_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "ocean_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "바다 용을 처치한 사건입니다.",
+      "id": "ocean_dragon_kill",
+      "labelKo": "바다 용 처치",
+      "qualifierValue": "WATER_DRAGON",
+      "rank": 33,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND event_subtype = 'WATER_DRAGON'"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "other_dragon_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "monster_subtype"
+      ],
+      "descriptionKo": "기타 용을 처치한 사건입니다.",
+      "id": "other_dragon_kill",
+      "labelKo": "기타 용 처치",
+      "qualifierValue": "OTHER_DRAGON",
+      "rank": 37,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "event_subtype",
+          "monster_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'dragon_kill' AND (event_subtype IS NULL OR event_subtype NOT IN ('FIRE_DRAGON', 'AIR_DRAGON', 'EARTH_DRAGON', 'WATER_DRAGON', 'HEXTECH_DRAGON', 'CHEMTECH_DRAGON', 'ELDER_DRAGON'))"
+      },
+      "variantOf": "dragon_kill"
+    },
+    "recall": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "team",
+        "player",
+        "champion",
+        "role"
+      ],
+      "descriptionKo": "본진으로 귀환한 사건입니다.",
+      "id": "recall",
+      "labelKo": "귀환",
+      "rank": 16,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role"
+        ],
+        "table": "events",
+        "where": "event_type = 'recall'"
+      }
+    },
+    "solo_kill": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "role",
+        "killer",
+        "victim",
+        "assistants",
+        "assist_count"
+      ],
+      "descriptionKo": "어시스트 없이 혼자 처치한 사건입니다.",
+      "id": "solo_kill",
+      "labelKo": "솔로킬",
+      "rank": 4,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "assist_count",
+          "victim_id"
+        ],
+        "table": "events",
+        "where": "event_type = 'kill' AND coalesce(assist_count, 0) = 0"
+      }
+    },
+    "team_aced": {
+      "atMostOncePerMatch": false,
+      "available": false,
+      "context": [
+        "time",
+        "team"
+      ],
+      "descriptionKo": "팀원 다섯 명이 동시에 사망 상태가 된 사건입니다.",
+      "id": "team_aced",
+      "labelKo": "팀 전멸",
+      "rank": 91,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id"
+        ],
+        "table": "events",
+        "where": "FALSE"
+      },
+      "teamPerspective": "victim",
+      "unavailableReasonKo": "현재 Riot 타임라인 정규화 데이터에는 정확한 부활 상태가 없어 전멸을 신뢰성 있게 판정할 수 없습니다."
+    },
+    "turret_damage": {
+      "atMostOncePerMatch": false,
+      "available": false,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "lane"
+      ],
+      "descriptionKo": "포탑에 피해를 입힌 사건입니다.",
+      "id": "turret_damage",
+      "labelKo": "포탑 피해",
+      "rank": 90,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id"
+        ],
+        "table": "events",
+        "where": "FALSE"
+      },
+      "unavailableReasonKo": "Riot 타임라인이 포탑 피해를 개별 사건으로 제공하지 않습니다. 포탑 방패 파괴나 포탑 파괴로 대신할 수 있습니다."
+    },
+    "turret_destroy": {
+      "aliases": {
+        "first_turret_destroy": {
+          "ordinal": "first"
+        }
+      },
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "lane",
+        "tower_type"
+      ],
+      "descriptionKo": "포탑을 파괴한 사건입니다.",
+      "id": "turret_destroy",
+      "labelKo": "포탑 파괴",
+      "rank": 5,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "tower_type",
+          "lane_type",
+          "is_first_of_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'turret_destroy'"
+      }
+    },
+    "turret_plate_destroy": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "lane"
+      ],
+      "descriptionKo": "14분 전까지 존재하는 포탑 방패를 파괴한 사건입니다.",
+      "id": "turret_plate_destroy",
+      "labelKo": "포탑 방패 파괴",
+      "rank": 6,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "lane_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'turret_plate_destroy'"
+      }
+    },
+    "victory": {
+      "atMostOncePerMatch": true,
+      "available": true,
+      "context": [
+        "time",
+        "team"
+      ],
+      "descriptionKo": "분석 대상 팀이 승리하며 게임이 종료된 사건입니다.",
+      "id": "victory",
+      "labelKo": "승리(게임 종료)",
+      "rank": 1,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id"
+        ],
+        "table": "events",
+        "where": "event_type = 'game_end'"
+      }
+    },
+    "ward_destroyed": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "ward_type"
+      ],
+      "descriptionKo": "상대 와드를 제거한 사건입니다.",
+      "id": "ward_destroyed",
+      "labelKo": "와드 제거",
+      "rank": 13,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "ward_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'ward_destroyed'"
+      }
+    },
+    "ward_placed": {
+      "atMostOncePerMatch": false,
+      "available": true,
+      "context": [
+        "time",
+        "position",
+        "team",
+        "player",
+        "champion",
+        "ward_type"
+      ],
+      "descriptionKo": "시야 와드를 설치한 사건입니다.",
+      "id": "ward_placed",
+      "labelKo": "와드 설치",
+      "rank": 12,
+      "sqlBinding": {
+        "columns": [
+          "match_id",
+          "event_id",
+          "timestamp_ms",
+          "event_type",
+          "team_id",
+          "participant_id",
+          "champion_id",
+          "role",
+          "x_norm",
+          "y_norm",
+          "x_raw",
+          "y_raw",
+          "has_position",
+          "ward_type"
+        ],
+        "table": "events",
+        "where": "event_type = 'ward_placed'"
+      }
+    }
+  },
+  "forbiddenPhrases": [
+    "만든다",
+    "만듭니다",
+    "이끈다",
+    "이끕니다",
+    "때문에",
+    "영향을 준다",
+    "영향을 줍니다",
+    "덕분에",
+    "효과",
+    "유발",
+    "좌우한다",
+    "좌우합니다",
+    "결정한다",
+    "결정합니다",
+    "원인",
+    "보장"
+  ],
+  "functions": {
+    "all_values": {
+      "descriptionKo": "반복 사건에서 선택한 값이 각각 한 번 이상 나타났는지 확인합니다.",
+      "id": "all_values",
+      "kind": "scalar",
+      "labelKo": "선택한 값 모두",
+      "params": [
+        {
+          "labelKo": "목록 조건",
+          "name": "membership",
+          "type": "bool"
+        }
+      ],
+      "rank": 50,
+      "returns": "bool",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "ally_has_champion": {
+      "descriptionKo": "같은 팀의 다른 선수가 지정한 챔피언을 선택했는지 확인합니다.",
+      "id": "ally_has_champion",
+      "kind": "scalar",
+      "labelKo": "아군 챔피언 포함",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        }
+      ],
+      "rank": 52,
+      "returns": "bool",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "avg": {
+      "descriptionKo": "값의 산술 평균입니다.",
+      "id": "avg",
+      "kind": "aggregate",
+      "labelKo": "평균",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "type": "float"
+        }
+      ],
+      "rank": 5,
+      "returns": "same-as-arg",
+      "sqlTemplate": "avg({0})",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "ban_rate": {
+      "descriptionKo": "분석 대상 경기 중 지정한 챔피언이 한 번 이상 밴된 경기의 비율입니다.",
+      "id": "ban_rate",
+      "kind": "aggregate",
+      "labelKo": "밴률",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        }
+      ],
+      "rank": 4,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "validGrains": [
+        "match"
+      ]
+    },
+    "bucket": {
+      "descriptionKo": "값을 일정한 크기의 구간으로 나눕니다.",
+      "id": "bucket",
+      "kind": "scalar",
+      "labelKo": "구간",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "type": "float"
+        },
+        {
+          "labelKo": "구간 크기",
+          "name": "size",
+          "type": "float"
+        }
+      ],
+      "rank": 14,
+      "returns": "category",
+      "sqlTemplate": "floor({0} / {1}) * {1}",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "champion_games": {
+      "descriptionKo": "지정한 챔피언이 한 번 이상 선택된 경기 수입니다.",
+      "id": "champion_games",
+      "kind": "aggregate",
+      "labelKo": "픽 경기 수",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        }
+      ],
+      "rank": 6,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "returns": "int",
+      "validGrains": [
+        "match"
+      ]
+    },
+    "champion_win_rate": {
+      "descriptionKo": "지정한 챔피언을 선택한 선수의 승률입니다.",
+      "id": "champion_win_rate",
+      "kind": "aggregate",
+      "labelKo": "챔피언 승률",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        }
+      ],
+      "rank": 5,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "validGrains": [
+        "match"
+      ]
+    },
+    "count": {
+      "descriptionKo": "조건을 만족한 단위의 수입니다.",
+      "id": "count",
+      "kind": "aggregate",
+      "labelKo": "개수",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "optional": true,
+          "type": "any"
+        }
+      ],
+      "rank": 2,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "returns": "int",
+      "sqlTemplate": "count({0})",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "duration": {
+      "descriptionKo": "시작 사건부터 끝 사건까지 걸린 시간입니다.",
+      "id": "duration",
+      "kind": "scalar",
+      "labelKo": "두 사건 사이의 시간",
+      "params": [
+        {
+          "labelKo": "시작 사건",
+          "name": "start",
+          "type": "event"
+        },
+        {
+          "labelKo": "끝 사건",
+          "name": "end",
+          "type": "event"
+        }
+      ],
+      "rank": 10,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "seconds"
+      },
+      "returns": "duration",
+      "validGrains": [
+        "match",
+        "team",
+        "player"
+      ]
+    },
+    "gold_diff": {
+      "descriptionKo": "지정한 시점에서 상대 팀과의 골드 차이입니다.",
+      "frameColumn": "gold_diff",
+      "id": "gold_diff",
+      "kind": "frame-measure",
+      "labelKo": "골드 차이",
+      "params": [
+        {
+          "labelKo": "시점",
+          "name": "at",
+          "type": "time"
+        }
+      ],
+      "rank": 11,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "gold"
+      },
+      "returns": "int",
+      "validGrains": [
+        "team",
+        "player"
+      ]
+    },
+    "kill_diff": {
+      "descriptionKo": "지정한 시점까지 누적된 킬 차이입니다.",
+      "frameColumn": "kill_diff",
+      "id": "kill_diff",
+      "kind": "frame-measure",
+      "labelKo": "킬 차이",
+      "params": [
+        {
+          "labelKo": "시점",
+          "name": "at",
+          "type": "time"
+        }
+      ],
+      "rank": 13,
+      "returns": "int",
+      "validGrains": [
+        "team"
+      ]
+    },
+    "loss_rate": {
+      "descriptionKo": "조건을 만족한 단위 중 패배한 비율입니다.",
+      "id": "loss_rate",
+      "kind": "aggregate",
+      "labelKo": "패배율",
+      "params": [],
+      "rank": 2,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "sqlTemplate": "avg(CASE WHEN NOT {win} THEN 1.0 ELSE 0.0 END)",
+      "validGrains": [
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "max": {
+      "descriptionKo": "값 중 가장 큰 것입니다.",
+      "id": "max",
+      "kind": "aggregate",
+      "labelKo": "최댓값",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "type": "float"
+        }
+      ],
+      "rank": 9,
+      "returns": "same-as-arg",
+      "sqlTemplate": "max({0})",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "median": {
+      "descriptionKo": "값을 정렬했을 때 가운데 값입니다. 극단값에 덜 흔들립니다.",
+      "id": "median",
+      "kind": "aggregate",
+      "labelKo": "중앙값",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "type": "float"
+        }
+      ],
+      "rank": 6,
+      "returns": "same-as-arg",
+      "sqlTemplate": "median({0})",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "min": {
+      "descriptionKo": "값 중 가장 작은 것입니다.",
+      "id": "min",
+      "kind": "aggregate",
+      "labelKo": "최솟값",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "type": "float"
+        }
+      ],
+      "rank": 8,
+      "returns": "same-as-arg",
+      "sqlTemplate": "min({0})",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "opponent_has_champion": {
+      "descriptionKo": "상대팀 로스터에 지정한 챔피언 중 한 명 이상이 있는지 확인합니다.",
+      "id": "opponent_has_champion",
+      "kind": "scalar",
+      "labelKo": "상대팀 챔피언 포함",
+      "params": [
+        {
+          "labelKo": "챔피언 1",
+          "name": "champion1",
+          "type": "string"
+        },
+        {
+          "labelKo": "챔피언 2",
+          "name": "champion2",
+          "optional": true,
+          "type": "string"
+        },
+        {
+          "labelKo": "챔피언 3",
+          "name": "champion3",
+          "optional": true,
+          "type": "string"
+        },
+        {
+          "labelKo": "챔피언 4",
+          "name": "champion4",
+          "optional": true,
+          "type": "string"
+        },
+        {
+          "labelKo": "챔피언 5",
+          "name": "champion5",
+          "optional": true,
+          "type": "string"
+        }
+      ],
+      "rank": 51,
+      "returns": "bool",
+      "validGrains": [
+        "team",
+        "player"
+      ]
+    },
+    "opponent_has_champion_in_role": {
+      "descriptionKo": "상대팀의 지정한 포지션 선수가 해당 챔피언을 선택했는지 확인합니다.",
+      "id": "opponent_has_champion_in_role",
+      "kind": "scalar",
+      "labelKo": "상대 포지션 챔피언",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        },
+        {
+          "labelKo": "포지션",
+          "name": "role",
+          "type": "string"
+        }
+      ],
+      "rank": 53,
+      "returns": "bool",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "owns_item_at": {
+      "descriptionKo": "구매·판매·파괴·구매 취소 기록을 반영해 지정한 시점의 보유 여부를 확인합니다.",
+      "id": "owns_item_at",
+      "kind": "scalar",
+      "labelKo": "시점 아이템 보유",
+      "params": [
+        {
+          "labelKo": "판정 시점",
+          "name": "at",
+          "type": "time"
+        },
+        {
+          "labelKo": "아이템 1",
+          "name": "item1",
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 2",
+          "name": "item2",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 3",
+          "name": "item3",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 4",
+          "name": "item4",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 5",
+          "name": "item5",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 6",
+          "name": "item6",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 7",
+          "name": "item7",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 8",
+          "name": "item8",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 9",
+          "name": "item9",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 10",
+          "name": "item10",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 11",
+          "name": "item11",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 12",
+          "name": "item12",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 13",
+          "name": "item13",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 14",
+          "name": "item14",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 15",
+          "name": "item15",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 16",
+          "name": "item16",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 17",
+          "name": "item17",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 18",
+          "name": "item18",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 19",
+          "name": "item19",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 20",
+          "name": "item20",
+          "optional": true,
+          "type": "int"
+        }
+      ],
+      "rank": 55,
+      "returns": "bool",
+      "validGrains": [
+        "team",
+        "player"
+      ]
+    },
+    "pick_rate": {
+      "descriptionKo": "분석 대상 경기 중 지정한 챔피언이 한 번 이상 선택된 경기의 비율입니다.",
+      "id": "pick_rate",
+      "kind": "aggregate",
+      "labelKo": "픽률",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        }
+      ],
+      "rank": 3,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "validGrains": [
+        "match"
+      ]
+    },
+    "purchased_item_by": {
+      "descriptionKo": "지정한 시점까지 선택한 아이템 중 하나를 구매했는지 확인합니다.",
+      "id": "purchased_item_by",
+      "kind": "scalar",
+      "labelKo": "시점까지 아이템 구매",
+      "params": [
+        {
+          "labelKo": "판정 시점",
+          "name": "at",
+          "type": "time"
+        },
+        {
+          "labelKo": "아이템 1",
+          "name": "item1",
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 2",
+          "name": "item2",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 3",
+          "name": "item3",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 4",
+          "name": "item4",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 5",
+          "name": "item5",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 6",
+          "name": "item6",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 7",
+          "name": "item7",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 8",
+          "name": "item8",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 9",
+          "name": "item9",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 10",
+          "name": "item10",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 11",
+          "name": "item11",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 12",
+          "name": "item12",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 13",
+          "name": "item13",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 14",
+          "name": "item14",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 15",
+          "name": "item15",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 16",
+          "name": "item16",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 17",
+          "name": "item17",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 18",
+          "name": "item18",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 19",
+          "name": "item19",
+          "optional": true,
+          "type": "int"
+        },
+        {
+          "labelKo": "아이템 20",
+          "name": "item20",
+          "optional": true,
+          "type": "int"
+        }
+      ],
+      "rank": 54,
+      "returns": "bool",
+      "validGrains": [
+        "team",
+        "player"
+      ]
+    },
+    "rate": {
+      "descriptionKo": "조건을 만족한 단위의 비율입니다.",
+      "id": "rate",
+      "kind": "aggregate",
+      "labelKo": "발생 비율",
+      "params": [
+        {
+          "labelKo": "조건",
+          "name": "condition",
+          "type": "bool"
+        }
+      ],
+      "rank": 3,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "sqlTemplate": "avg(CASE WHEN {0} THEN 1.0 ELSE 0.0 END)",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "role_pick_rate": {
+      "descriptionKo": "지정한 포지션의 전체 선택 슬롯 중 해당 챔피언이 선택된 비율입니다.",
+      "id": "role_pick_rate",
+      "kind": "aggregate",
+      "labelKo": "포지션 내 픽률",
+      "params": [
+        {
+          "labelKo": "챔피언",
+          "name": "champion",
+          "type": "string"
+        },
+        {
+          "labelKo": "포지션",
+          "name": "role",
+          "type": "string"
+        }
+      ],
+      "rank": 7,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "validGrains": [
+        "match"
+      ]
+    },
+    "success_rate": {
+      "descriptionKo": "기준 사건이 일어난 횟수 대비, 정해진 시간 안에 다음 사건이 일어난 횟수의 비율입니다.",
+      "id": "success_rate",
+      "kind": "aggregate",
+      "labelKo": "성공률",
+      "params": [],
+      "rank": 8,
+      "requiresClause": "chain",
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "sqlTemplate": "avg(CASE WHEN {chain_hit} THEN 1.0 ELSE 0.0 END)",
+      "validGrains": [
+        "event"
+      ]
+    },
+    "sum": {
+      "descriptionKo": "값을 모두 더한 결과입니다.",
+      "id": "sum",
+      "kind": "aggregate",
+      "labelKo": "합계",
+      "params": [
+        {
+          "labelKo": "값",
+          "name": "value",
+          "type": "float"
+        }
+      ],
+      "rank": 7,
+      "returns": "same-as-arg",
+      "sqlTemplate": "sum({0})",
+      "validGrains": [
+        "match",
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "win_rate": {
+      "descriptionKo": "조건을 만족한 단위 중 승리한 비율입니다.",
+      "id": "win_rate",
+      "kind": "aggregate",
+      "labelKo": "승률",
+      "params": [],
+      "rank": 1,
+      "resultFormat": {
+        "decimals": 1,
+        "unit": "percent"
+      },
+      "returns": "rate",
+      "sqlTemplate": "avg(CASE WHEN {win} THEN 1.0 ELSE 0.0 END)",
+      "validGrains": [
+        "team",
+        "player",
+        "event"
+      ]
+    },
+    "xp_diff": {
+      "descriptionKo": "지정한 시점에서 상대 팀과의 경험치 차이입니다.",
+      "frameColumn": "xp_diff",
+      "id": "xp_diff",
+      "kind": "frame-measure",
+      "labelKo": "경험치 차이",
+      "params": [
+        {
+          "labelKo": "시점",
+          "name": "at",
+          "type": "time"
+        }
+      ],
+      "rank": 12,
+      "returns": "int",
+      "validGrains": [
+        "team",
+        "player"
+      ]
+    }
+  },
+  "grains": {
+    "event": {
+      "baseTable": "events",
+      "id": "event",
+      "keyColumns": [
+        "match_id",
+        "event_id"
+      ],
+      "labelKo": "사건",
+      "unitKo": "사건"
+    },
+    "match": {
+      "baseTable": "matches",
+      "id": "match",
+      "keyColumns": [
+        "match_id"
+      ],
+      "labelKo": "경기",
+      "unitKo": "경기"
+    },
+    "player": {
+      "baseTable": "participants",
+      "id": "player",
+      "keyColumns": [
+        "match_id",
+        "participant_id"
+      ],
+      "labelKo": "선수",
+      "unitKo": "선수-경기"
+    },
+    "team": {
+      "baseTable": "match_summary",
+      "id": "team",
+      "keyColumns": [
+        "match_id",
+        "team_id"
+      ],
+      "labelKo": "팀",
+      "unitKo": "팀-경기"
+    }
+  },
+  "groupKeys": {
+    "champion": {
+      "descriptionKo": "선수가 선택한 챔피언별로 나눕니다.",
+      "id": "champion",
+      "labelKo": "챔피언",
+      "minSample": 30,
+      "rank": 1,
+      "sql": "champion",
+      "type": "champion",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "duration_bucket": {
+      "descriptionKo": "경기 길이를 5분 구간으로 나눕니다.",
+      "id": "duration_bucket",
+      "labelKo": "경기 길이 구간",
+      "rank": 6,
+      "sql": "floor(duration_s / 300) * 5",
+      "type": "category",
+      "validGrains": [
+        "match",
+        "team",
+        "player"
+      ]
+    },
+    "patch": {
+      "descriptionKo": "게임 버전별로 나눕니다.",
+      "id": "patch",
+      "labelKo": "패치",
+      "rank": 4,
+      "sql": "patch",
+      "type": "category",
+      "validGrains": [
+        "match",
+        "team",
+        "player"
+      ]
+    },
+    "position_region": {
+      "descriptionKo": "퍼스트 블러드가 일어난 미니맵 영역별로 나눕니다.",
+      "id": "position_region",
+      "labelKo": "퍼스트 블러드 영역",
+      "minSample": 30,
+      "rank": 5,
+      "sql": "first_blood_region",
+      "type": "region",
+      "validGrains": [
+        "team"
+      ]
+    },
+    "role": {
+      "descriptionKo": "탑·정글·미드·원딜·서포터로 나눕니다.",
+      "id": "role",
+      "labelKo": "역할",
+      "minSample": 30,
+      "rank": 2,
+      "sql": "role",
+      "type": "role",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "side": {
+      "descriptionKo": "블루·레드 진영으로 나눕니다.",
+      "id": "side",
+      "labelKo": "진영",
+      "rank": 3,
+      "sql": "side",
+      "type": "team",
+      "validGrains": [
+        "team",
+        "player"
+      ]
+    }
+  },
+  "hash": "sha256:efaed277b8a946f5208140e9f3afef7d12e6db84834c20890c10d4fd0ed17f7e",
+  "landmarks": {
+    "blue.top_outer_turret": {
+      "id": "blue.top_outer_turret",
+      "labelKo": "블루팀 탑 외곽 포탑",
+      "xRaw": 981,
+      "yRaw": 10441
+    },
+    "red.top_outer_turret": {
+      "id": "red.top_outer_turret",
+      "labelKo": "레드팀 탑 외곽 포탑",
+      "xRaw": 4318,
+      "yRaw": 13875
+    }
+  },
+  "map": {
+    "min": -120,
+    "span": 15000
+  },
+  "referencedColumns": {
+    "events": [
+      "assist_count",
+      "assist_ids",
+      "champion_id",
+      "event_id",
+      "event_subtype",
+      "event_type",
+      "has_position",
+      "is_first_of_type",
+      "item_id",
+      "lane_type",
+      "level",
+      "match_id",
+      "monster_type",
+      "participant_id",
+      "role",
+      "team_id",
+      "timestamp_ms",
+      "tower_type",
+      "victim_id",
+      "victim_team_id",
+      "ward_type",
+      "x_norm",
+      "x_raw",
+      "y_norm",
+      "y_raw"
+    ],
+    "match_summary": [
+      "baron_kills",
+      "dragon_kills",
+      "total_kills",
+      "tower_kills"
+    ],
+    "matches": [
+      "duration_s",
+      "ended_in_surrender"
+    ],
+    "participants": [
+      "assists",
+      "champ_level",
+      "deaths",
+      "gold_earned",
+      "kills",
+      "neutral_minions_killed",
+      "total_damage_dealt_to_champions",
+      "total_damage_taken",
+      "total_minions_killed",
+      "vision_score",
+      "wards_killed",
+      "wards_placed"
+    ],
+    "v_deaths": [
+      "assist_count",
+      "champion_id",
+      "event_id",
+      "has_position",
+      "killer_id",
+      "killer_team_id",
+      "match_id",
+      "participant_id",
+      "role",
+      "team_id",
+      "timestamp_ms",
+      "x_norm",
+      "x_raw",
+      "y_norm",
+      "y_raw"
+    ],
+    "v_dragon_soul_acquired": [
+      "champion_id",
+      "event_id",
+      "event_subtype",
+      "event_type",
+      "has_position",
+      "is_first_of_type",
+      "match_id",
+      "monster_type",
+      "participant_id",
+      "role",
+      "team_id",
+      "timestamp_ms",
+      "x_norm",
+      "x_raw",
+      "y_norm",
+      "y_raw"
+    ]
+  },
+  "subjectFields": {
+    "assists": {
+      "columns": [
+        "assists"
+      ],
+      "descriptionKo": "어시스트 값입니다.",
+      "id": "assists",
+      "labelKo": "어시스트",
+      "rank": 5,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "assists",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "baron_kills": {
+      "columns": [
+        "baron_kills"
+      ],
+      "descriptionKo": "바론 처치 수 값입니다.",
+      "id": "baron_kills",
+      "labelKo": "바론 처치 수",
+      "rank": 18,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "baron_kills",
+      "table": "match_summary",
+      "type": "int",
+      "validGrains": [
+        "team"
+      ]
+    },
+    "champion_level": {
+      "columns": [
+        "champ_level"
+      ],
+      "descriptionKo": "종료 레벨 값입니다.",
+      "id": "champion_level",
+      "labelKo": "종료 레벨",
+      "rank": 15,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "champ_level",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "cs": {
+      "columns": [
+        "total_minions_killed",
+        "neutral_minions_killed"
+      ],
+      "descriptionKo": "CS 값입니다.",
+      "id": "cs",
+      "labelKo": "CS",
+      "rank": 13,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "total_minions_killed + neutral_minions_killed",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "cs_per_minute": {
+      "columns": [
+        "total_minions_killed",
+        "neutral_minions_killed"
+      ],
+      "descriptionKo": "분당 CS 값입니다.",
+      "id": "cs_per_minute",
+      "labelKo": "분당 CS",
+      "rank": 14,
+      "resultFormat": {
+        "decimals": 2,
+        "unit": "count"
+      },
+      "sql": "(total_minions_killed + neutral_minions_killed) * 60.0 / nullif(duration_s, 0)",
+      "table": "participants",
+      "type": "float",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "damage_dealt": {
+      "columns": [
+        "total_damage_dealt_to_champions"
+      ],
+      "descriptionKo": "챔피언 대상 피해량 값입니다.",
+      "id": "damage_dealt",
+      "labelKo": "챔피언 대상 피해량",
+      "rank": 8,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "total_damage_dealt_to_champions",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "damage_taken": {
+      "columns": [
+        "total_damage_taken"
+      ],
+      "descriptionKo": "받은 피해량 값입니다.",
+      "id": "damage_taken",
+      "labelKo": "받은 피해량",
+      "rank": 9,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "total_damage_taken",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "deaths": {
+      "columns": [
+        "deaths"
+      ],
+      "descriptionKo": "데스 값입니다.",
+      "id": "deaths",
+      "labelKo": "데스",
+      "rank": 4,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "deaths",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "dragon_kills": {
+      "columns": [
+        "dragon_kills"
+      ],
+      "descriptionKo": "드래곤 처치 수 값입니다.",
+      "id": "dragon_kills",
+      "labelKo": "드래곤 처치 수",
+      "rank": 17,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "dragon_kills",
+      "table": "match_summary",
+      "type": "int",
+      "validGrains": [
+        "team"
+      ]
+    },
+    "duration_s": {
+      "columns": [
+        "duration_s"
+      ],
+      "descriptionKo": "경기 시간 값입니다.",
+      "id": "duration_s",
+      "labelKo": "경기 시간",
+      "rank": 1,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "seconds"
+      },
+      "sql": "duration_s",
+      "table": "matches",
+      "type": "duration",
+      "validGrains": [
+        "match",
+        "team",
+        "player"
+      ]
+    },
+    "ended_in_surrender": {
+      "columns": [
+        "ended_in_surrender"
+      ],
+      "descriptionKo": "항복 종료 값입니다.",
+      "id": "ended_in_surrender",
+      "labelKo": "항복 종료",
+      "rank": 2,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "ended_in_surrender",
+      "table": "matches",
+      "type": "bool",
+      "validGrains": [
+        "match"
+      ]
+    },
+    "gold_earned": {
+      "columns": [
+        "gold_earned"
+      ],
+      "descriptionKo": "획득 골드 값입니다.",
+      "id": "gold_earned",
+      "labelKo": "획득 골드",
+      "rank": 7,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "gold"
+      },
+      "sql": "gold_earned",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "kda": {
+      "columns": [
+        "kills",
+        "assists",
+        "deaths"
+      ],
+      "descriptionKo": "KDA 값입니다.",
+      "id": "kda",
+      "labelKo": "KDA",
+      "rank": 6,
+      "resultFormat": {
+        "decimals": 2,
+        "unit": "count"
+      },
+      "sql": "(kills + assists)::DOUBLE / greatest(deaths, 1)",
+      "table": "participants",
+      "type": "float",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "kills": {
+      "columns": [
+        "kills"
+      ],
+      "descriptionKo": "킬 값입니다.",
+      "id": "kills",
+      "labelKo": "킬",
+      "rank": 3,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "kills",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "total_kills": {
+      "columns": [
+        "total_kills"
+      ],
+      "descriptionKo": "팀 처치 수 값입니다.",
+      "id": "total_kills",
+      "labelKo": "팀 처치 수",
+      "rank": 19,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "total_kills",
+      "table": "match_summary",
+      "type": "int",
+      "validGrains": [
+        "team"
+      ]
+    },
+    "tower_kills": {
+      "columns": [
+        "tower_kills"
+      ],
+      "descriptionKo": "포탑 파괴 수 값입니다.",
+      "id": "tower_kills",
+      "labelKo": "포탑 파괴 수",
+      "rank": 16,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "tower_kills",
+      "table": "match_summary",
+      "type": "int",
+      "validGrains": [
+        "team"
+      ]
+    },
+    "vision_score": {
+      "columns": [
+        "vision_score"
+      ],
+      "descriptionKo": "시야 점수 값입니다.",
+      "id": "vision_score",
+      "labelKo": "시야 점수",
+      "rank": 10,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "vision_score",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "wards_killed": {
+      "columns": [
+        "wards_killed"
+      ],
+      "descriptionKo": "제거한 와드 값입니다.",
+      "id": "wards_killed",
+      "labelKo": "제거한 와드",
+      "rank": 12,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "wards_killed",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    },
+    "wards_placed": {
+      "columns": [
+        "wards_placed"
+      ],
+      "descriptionKo": "설치한 와드 값입니다.",
+      "id": "wards_placed",
+      "labelKo": "설치한 와드",
+      "rank": 11,
+      "resultFormat": {
+        "decimals": 0,
+        "unit": "count"
+      },
+      "sql": "wards_placed",
+      "table": "participants",
+      "type": "int",
+      "validGrains": [
+        "player"
+      ]
+    }
+  },
+  "tables": {
+    "events": {
+      "descriptionKo": "타임라인 사건",
+      "grain": "event",
+      "isView": false,
+      "keyColumns": [
+        "match_id",
+        "event_id"
+      ],
+      "name": "events"
+    },
+    "match_summary": {
+      "descriptionKo": "팀-경기 파생 요약. 흔한 질문을 단일 스캔으로 답하기 위한 gold 레이어",
+      "grain": "team",
+      "isView": false,
+      "keyColumns": [
+        "match_id",
+        "team_id"
+      ],
+      "name": "match_summary"
+    },
+    "matches": {
+      "descriptionKo": "경기 1행",
+      "grain": "match",
+      "isView": false,
+      "keyColumns": [
+        "match_id"
+      ],
+      "name": "matches"
+    },
+    "participants": {
+      "descriptionKo": "경기당 참가자 10행",
+      "grain": "player",
+      "isView": false,
+      "keyColumns": [
+        "match_id",
+        "participant_id"
+      ],
+      "name": "participants"
+    },
+    "teams": {
+      "descriptionKo": "경기당 팀 2행",
+      "grain": "team",
+      "isView": false,
+      "keyColumns": [
+        "match_id",
+        "team_id"
+      ],
+      "name": "teams"
+    },
+    "timeline_participant_frames": {
+      "descriptionKo": "1분 간격 참가자 상태",
+      "grain": "player",
+      "isView": false,
+      "keyColumns": [
+        "match_id",
+        "frame_idx",
+        "participant_id"
+      ],
+      "name": "timeline_participant_frames"
+    },
+    "timeline_team_frames": {
+      "descriptionKo": "1분 간격 팀 집계. gold_diff 등이 저장 시점에 계산되어 있다",
+      "grain": "team",
+      "isView": false,
+      "keyColumns": [
+        "match_id",
+        "frame_idx",
+        "team_id"
+      ],
+      "name": "timeline_team_frames"
+    },
+    "v_deaths": {
+      "descriptionKo": "킬을 피해자 관점으로 투영한 뷰. 물리 행이 아니다",
+      "grain": "event",
+      "isView": true,
+      "keyColumns": [
+        "match_id",
+        "event_id"
+      ],
+      "name": "v_deaths"
+    },
+    "v_dragon_soul_acquired": {
+      "descriptionKo": "팀별 네 번째 원소 드래곤 처치로 파생한 용 영혼 획득 사건",
+      "grain": "event",
+      "isView": true,
+      "keyColumns": [
+        "match_id",
+        "event_id"
+      ],
+      "name": "v_dragon_soul_acquired"
+    },
+    "v_event_assists": {
+      "descriptionKo": "assist_ids LIST를 펼친 뷰",
+      "grain": "event",
+      "isView": true,
+      "keyColumns": [
+        "match_id",
+        "event_id"
+      ],
+      "name": "v_event_assists"
+    }
+  }
+}

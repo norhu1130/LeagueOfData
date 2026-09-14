@@ -1,0 +1,18 @@
+{
+  "name": "@lol/dsl",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@lol/ast": "workspace:*",
+    "@lol/catalog": "workspace:*"
+  },
+  "scripts": {
+    "build:conformance": "tsx scripts/build-conformance.ts"
+  }
+}

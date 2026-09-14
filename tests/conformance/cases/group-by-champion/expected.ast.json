@@ -1,0 +1,44 @@
+{
+  "analyze": {
+    "entity": "player",
+    "kind": "ScopeRef"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [
+      {
+        "alias": null,
+        "expr": {
+          "kind": "Identifier",
+          "name": "champion"
+        },
+        "kind": "GroupKey"
+      }
+    ],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "win_rate",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      },
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "count",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": null
+  },
+  "kind": "Program"
+}

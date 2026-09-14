@@ -1,0 +1,29 @@
+node_modules/
+dist/
+apps/web/dist/
+.turbo/
+*.tsbuildinfo
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+test-results/
+playwright-report/
+*.log
+
+# Generated data — large, reproducible from seed
+data/bronze/
+data/silver/
+data/gold/
+data/runs/
+data/tmp/
+!data/**/.gitkeep
+
+# Bench output
+bench/results/
+
+# Secrets
+.env
+.env.local

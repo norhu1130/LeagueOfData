@@ -1,0 +1,72 @@
+{
+  "analyze": {
+    "entity": "team",
+    "kind": "ScopeRef",
+    "side": "blue"
+  },
+  "body": {
+    "chain": null,
+    "groupBy": [],
+    "kind": "SimpleStmt",
+    "returns": [
+      {
+        "alias": null,
+        "expr": {
+          "args": [],
+          "callee": "win_rate",
+          "kind": "CallExpr",
+          "scope": null
+        },
+        "kind": "ReturnItem"
+      }
+    ],
+    "when": {
+      "kind": "BinaryExpr",
+      "left": {
+        "event": {
+          "bindingId": "blue.first_blood#any",
+          "eventType": "first_blood",
+          "kind": "EventRef",
+          "ordinal": "any",
+          "scope": {
+            "entity": "team",
+            "kind": "ScopeRef",
+            "side": "blue"
+          },
+          "surface": "first_blood"
+        },
+        "kind": "EventPredicate",
+        "negated": false
+      },
+      "op": "AND",
+      "right": {
+        "kind": "TemporalPredicate",
+        "left": {
+          "field": "time",
+          "kind": "FieldAccess",
+          "object": {
+            "bindingId": "any.first_blood#any",
+            "eventType": "first_blood",
+            "kind": "EventRef",
+            "ordinal": "any",
+            "scope": null,
+            "surface": "first_blood"
+          }
+        },
+        "relation": "BETWEEN",
+        "right": {
+          "kind": "DurationLit",
+          "raw": "2m",
+          "seconds": 120
+        },
+        "rightUpper": {
+          "kind": "DurationLit",
+          "raw": "10m",
+          "seconds": 600
+        },
+        "window": null
+      }
+    }
+  },
+  "kind": "Program"
+}

@@ -1,0 +1,29 @@
+[project]
+name = "lod-api"
+version = "0.0.0"
+description = "Analytics execution engine built with FastAPI and DuckDB"
+license = "LicenseRef-League-of-Data-Source-Available-1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.32",
+  "pydantic>=2.10",
+  "pydantic-settings>=2.6",
+  "httpx>=0.28",
+  "duckdb>=1.1",
+  "pyarrow>=18.0",
+  "lod-data",
+]
+
+[project.scripts]
+lod-api = "lod_api.main:run"
+
+[tool.uv.sources]
+lod-data = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lod_api"]

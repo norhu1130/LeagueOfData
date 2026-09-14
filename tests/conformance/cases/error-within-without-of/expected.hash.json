@@ -1,0 +1,4 @@
+{
+  "hash": "sha256:ef6242fc8c4b29fd770a1ba58b8cf3007b029d1208b7044fe3bc28ebc6e5a848",
+  "canonicalJson": "{\"analyze\":null,\"body\":{\"chain\":null,\"groupBy\":[],\"kind\":\"SimpleStmt\",\"returns\":[],\"when\":{\"kind\":\"SpatialPredicate\",\"position\":{\"field\":\"position\",\"kind\":\"FieldAccess\",\"object\":{\"bindingId\":\"any.death#any\",\"eventType\":\"death\",\"kind\":\"EventRef\",\"ordinal\":\"any\",\"scope\":null,\"surface\":\"death\"}},\"radius\":{\"kind\":\"NumberLit\",\"value\":1000},\"relation\":\"WITHIN_RADIUS\",\"target\":{\"diagnosticCode\":\"E-SYN-002\",\"kind\":\"ErrorExpr\",\"rawText\":\"RETURN\"}}},\"kind\":\"Program\"}"
+}

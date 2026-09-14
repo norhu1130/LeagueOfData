@@ -1,0 +1,10 @@
+{
+  "name": "spec-35-end-to-end",
+  "descriptionKo": "§35 — 탑 퍼블 시 첫 타워까지 시간과 승률을 함께",
+  "tags": [
+    "spatial",
+    "duration",
+    "multi-return"
+  ],
+  "expectsErrors": false
+}

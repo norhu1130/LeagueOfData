@@ -1,0 +1,10 @@
+{
+  "name": "dod-d-gold-lead-win-rate",
+  "descriptionKo": "10분에 1500골드 앞선 팀의 승률",
+  "dod": "D",
+  "tags": [
+    "frame-measure",
+    "win_rate"
+  ],
+  "expectsErrors": false
+}

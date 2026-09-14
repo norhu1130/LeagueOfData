@@ -1,0 +1,2 @@
+WHEN death.position WITHIN 1000 OF RETURN
+RETURN

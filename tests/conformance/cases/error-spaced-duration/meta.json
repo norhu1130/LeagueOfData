@@ -1,0 +1,8 @@
+{
+  "name": "error-spaced-duration",
+  "descriptionKo": "§29 — 시간 단위를 띄어 쓴 경우",
+  "tags": [
+    "error"
+  ],
+  "expectsErrors": true
+}

@@ -1,0 +1,40 @@
+{
+  "name": "leagueofdata",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n web,api -c cyan,magenta \"pnpm -F @lol/web dev\" \"pnpm dev:api\"",
+    "dev:web": "pnpm -F @lol/web dev",
+    "dev:api": "LOD_RELOAD=true uv run lod-api",
+    "build": "pnpm -r build",
+    "typecheck": "tsc --build && pnpm -F @lol/web exec tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:py": "uv run pytest -q",
+    "test:all": "pnpm test && pnpm test:py",
+    "lint": "uv run ruff check packages-py services bench scripts && uv run ruff format --check packages-py services bench scripts && pnpm exec prettier --check .",
+    "format": "uv run ruff format packages-py services bench scripts && pnpm exec prettier --write .",
+    "gen:reference": "pnpm -F @lol/data-model export-reference && pnpm -F @lol/data-model export-region-golden && pnpm gen:catalog && pnpm gen:conformance",
+    "check:reference": "node scripts/check-generated.mjs",
+    "gen:catalog": "pnpm -F @lol/catalog build:json",
+    "gen:conformance": "pnpm -F @lol/dsl build:conformance"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@playwright/test": "^1.63.0",
+    "concurrently": "^10.0.5",
+    "fast-check": "^4.10.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.23.13",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "zod": "^4.6.4"
+  }
+}

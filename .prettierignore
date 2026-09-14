@@ -1,0 +1,16 @@
+# Each generator owns deterministic formatting for its machine-generated artifacts.
+data/reference/
+tests/conformance/
+packages-py/lod_data/src/lod_data/regions_builtin.json
+services/api/src/lod_api/catalog.json
+pnpm-lock.yaml
+
+# Build and runtime artifacts
+dist/
+apps/web/dist/
+test-results/
+playwright-report/
+data/bronze/
+data/silver/
+data/gold/
+data/runs/

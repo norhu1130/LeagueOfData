@@ -1,0 +1,10 @@
+{
+  "name": "dod-f-dragon-after-kill",
+  "descriptionKo": "킬 이후 90초 안에 용을 먹는 비율",
+  "dod": "F",
+  "tags": [
+    "temporal-chain",
+    "success_rate"
+  ],
+  "expectsErrors": false
+}

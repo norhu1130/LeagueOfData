@@ -1,0 +1,9 @@
+{
+  "name": "nested-or",
+  "descriptionKo": "중첩 OR — Visual Builder가 표현할 수 없는 고급 조건",
+  "tags": [
+    "advanced",
+    "boolean"
+  ],
+  "expectsErrors": false
+}

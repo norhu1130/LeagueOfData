@@ -1,0 +1,8 @@
+{
+  "name": "compare-first-blood",
+  "descriptionKo": "§13 — 퍼블 획득 여부 비교",
+  "tags": [
+    "compare"
+  ],
+  "expectsErrors": false
+}

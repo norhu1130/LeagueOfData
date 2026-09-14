@@ -1,0 +1,89 @@
+# League of Data Source-Available License 1.0
+
+Copyright (c) 2026 League of Data contributors
+
+This license is a source-available license. It is not an Open Source Initiative approved license.
+
+## 1. Definitions
+
+"Software" means the source code, documentation, and other materials in this repository, excluding Third-Party Materials.
+
+"Licensor" means the copyright holder or holders offering the Software under this license.
+
+"Organization" means any company, partnership, sole proprietorship, government body, nonprofit organization, educational institution, or other legal entity, including its affiliates, employees, contractors, and agents.
+
+"Use Case" means the specific purpose, users, deployment model, data flow, and commercial context in which the Software will be used.
+
+"Noncommercial Personal Use" means use by an individual solely for personal study, research, experimentation, hobby activity, or private evaluation, without compensation, anticipated commercial application, or benefit to an Organization.
+
+## 2. Noncommercial Personal License
+
+Subject to this license, the Licensor grants individuals a non-exclusive, worldwide, non-transferable, royalty-free license to use, copy, modify, and distribute the Software solely for Noncommercial Personal Use.
+
+Any distributed copy or modification must include this license, retain all copyright and attribution notices, clearly identify material changes, and be distributed under this same license.
+
+## 3. Organization and Commercial Use
+
+No Organization use and no commercial use is permitted by the public license in Section 2.
+
+Before an Organization uses the Software, or before anyone uses the Software for a commercial purpose, the prospective user must register the intended Use Case with the Licensor and receive written permission or a separate commercial license.
+
+Evaluation on behalf of an Organization is limited to reviewing the public source code. Running, deploying, modifying, integrating, benchmarking for procurement, or otherwise using the Software on behalf of an Organization requires prior written permission.
+
+## 4. Use Case Registration
+
+A registration request should be sent by email to the licensing contact listed in the repository owner's GitHub profile or repository metadata. If no licensing email is listed, open a GitHub Issue requesting a private licensing contact channel.
+
+The request must include:
+
+1. the Organization's legal name and website;
+2. the requester's name, role, and business email address;
+3. a clear description of the intended Use Case;
+4. whether use is internal, customer-facing, hosted, redistributed, or embedded;
+5. the expected number and type of users;
+6. whether the Use Case is revenue-generating or supports a commercial product or service; and
+7. any intended use of Riot Games data, APIs, trademarks, or assets.
+
+Registration alone does not grant permission. Permission begins only when the Licensor confirms the approved Use Case in writing. Permission applies only to that approved Use Case and may include additional terms, fees, limits, or reporting requirements. A material change to the registered Use Case requires a new registration.
+
+## 5. Restrictions
+
+Unless the Licensor gives prior written permission, you may not:
+
+- use the Software for or on behalf of an Organization;
+- use the Software for any commercial, revenue-generating, or production purpose;
+- offer the Software or a derivative as a hosted or managed service;
+- sell, sublicense, lease, or otherwise monetize the Software or access to it;
+- remove or obscure copyright, attribution, license, or legal notices;
+- use the Licensor's names, logos, or trademarks to imply endorsement; or
+- use the Software in violation of applicable law or third-party terms.
+
+## 6. Third-Party Materials
+
+This license does not grant rights to Riot Games APIs, game data, artwork, maps, icons, trademarks, or other third-party materials. Those materials remain subject to their respective owners' terms and policies. You are responsible for obtaining all permissions required for your Use Case.
+
+League of Data isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+
+## 7. Contributions
+
+Unless a separate written agreement states otherwise, a contribution intentionally submitted to this repository may be used, reproduced, modified, distributed, and relicensed by the repository owner under this license and under separate commercial terms. You represent that you have the right to submit the contribution on those terms.
+
+## 8. No Trademark License
+
+This license does not grant permission to use any trade name, trademark, service mark, or product name of the Licensor, except as required for reasonable attribution.
+
+## 9. Termination
+
+Your rights under this license terminate automatically if you violate its terms. If this is your first violation and you cure it within 30 days after written notice from the Licensor, the Licensor may reinstate your rights in writing. Termination does not limit any other rights or remedies.
+
+## 10. Disclaimer of Warranty
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+
+## 11. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR LOST PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS INTERRUPTION, ARISING FROM OR RELATED TO THE SOFTWARE OR THIS LICENSE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+## 12. Other Rights
+
+The Licensor may offer the Software under other terms, including commercial licenses. This license does not limit rights that cannot legally be restricted, such as applicable fair use or fair dealing rights.

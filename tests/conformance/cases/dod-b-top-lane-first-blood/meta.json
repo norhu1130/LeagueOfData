@@ -1,0 +1,11 @@
+{
+  "name": "dod-b-top-lane-first-blood",
+  "descriptionKo": "탑에서 퍼스트 블러드를 먹은 팀의 승률",
+  "dod": "B",
+  "tags": [
+    "event",
+    "spatial",
+    "win_rate"
+  ],
+  "expectsErrors": false
+}
