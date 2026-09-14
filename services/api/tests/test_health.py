@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -16,20 +17,48 @@ def _write_witness(path) -> None:
     pq.write_table(pa.table({"ready": [True]}), path)
 
 
+def _write_ready_dataset(root: Path) -> None:
+    silver = root / "silver"
+    reference = root / "reference"
+    reference.mkdir(parents=True)
+    for name in ("catalog.json", "regions_builtin.json"):
+        (reference / name).write_text("{}", encoding="utf-8")
+    manifest = {
+        "snapshot_id": "sha256:test",
+        "tables": {name: {"rows": 1, "files": 1, "bytes": 1} for name in TABLES},
+    }
+    silver.mkdir(parents=True)
+    (silver / "_manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    for name in TABLES:
+        path = silver / name / "part-0000.parquet"
+        path.parent.mkdir()
+        _write_witness(path)
+
+
 def test_healthz_reports_engine() -> None:
     body = client.get("/healthz").json()
     assert body["status"] == "ok"
     assert body["engine"].startswith("duckdb-")
 
 
-def test_health_probes_support_head_requests() -> None:
+def test_health_probes_support_head_requests(tmp_path, monkeypatch) -> None:
+    from lod_api.config import settings
+
+    _write_ready_dataset(tmp_path)
+    monkeypatch.setattr(settings, "data_dir", tmp_path)
+
     for path in ("/healthz", "/readyz"):
         response = client.head(path)
         assert response.status_code == 200
         assert response.content == b""
 
 
-def test_readyz_reports_reference_present() -> None:
+def test_readyz_reports_reference_present(tmp_path, monkeypatch) -> None:
+    from lod_api.config import settings
+
+    _write_ready_dataset(tmp_path)
+    monkeypatch.setattr(settings, "data_dir", tmp_path)
+
     response = client.get("/readyz")
     assert response.status_code == 200
     body = response.json()
