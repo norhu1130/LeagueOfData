@@ -87,13 +87,13 @@ pnpm lint
 pnpm test:e2e
 ```
 
-| Area | Documentation |
-| --- | --- |
-| Web workspace | [apps/web](apps/web/README.md) |
-| TypeScript packages | [packages](packages/README.md) |
+| Area                       | Documentation                                          |
+| -------------------------- | ------------------------------------------------------ |
+| Web workspace              | [apps/web](apps/web/README.md)                         |
+| TypeScript packages        | [packages](packages/README.md)                         |
 | Data ingestion and schemas | [packages-py/lod_data](packages-py/lod_data/README.md) |
-| Analytics API | [services/api](services/api/README.md) |
-| Benchmarks and tests | [bench](bench/README.md) · [tests](tests/README.md) |
+| Analytics API              | [services/api](services/api/README.md)                 |
+| Benchmarks and tests       | [bench](bench/README.md) · [tests](tests/README.md)    |
 
 ## License
 
