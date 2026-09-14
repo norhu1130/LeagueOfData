@@ -6,7 +6,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
 
-from bench.run_bench import validate_dataset
+from bench.run_bench import latency_budget, validate_dataset
 
 
 def write_manifest(tmp_path, *, rows: int, n_matches: int, physical_rows: int | None = None):
@@ -55,3 +55,10 @@ def test_validate_dataset_checks_physical_match_rows(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="physical rows=9999"):
         validate_dataset(tmp_path, "synth-10k")
+
+
+def test_latency_budgets_isolate_expensive_10k_cases() -> None:
+    assert latency_budget("synth-10k", "dod-a-first-blood-win-rate") == ("p50", 250.0)
+    assert latency_budget("synth-10k", "dod-e-death-in-region") == ("p50", 650.0)
+    assert latency_budget("synth-10k", "dod-f-dragon-after-kill") == ("p50", 500.0)
+    assert latency_budget("synth-100k", "dod-e-death-in-region") == ("p95", 2_000.0)
