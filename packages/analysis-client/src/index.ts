@@ -244,6 +244,11 @@ export interface EffectiveCatalog {
   readonly functions: Readonly<Record<string, unknown>>;
   readonly groupKeys: Readonly<Record<string, unknown>>;
   readonly dslLanguage: EffectiveDslLanguage;
+  readonly aiRecipes: readonly {
+    readonly id: string;
+    readonly intentKo: string;
+    readonly dsl: string;
+  }[];
   readonly diagnostics: Readonly<Record<string, unknown>>;
   readonly forbiddenPhrases: readonly string[];
   readonly referencedColumns?: Readonly<Record<string, readonly string[]>>;
@@ -324,6 +329,23 @@ export interface AiDslDraft {
   readonly dsl: string;
   readonly titleKo: string;
   readonly explanationKo: string;
+  readonly datasetFilters: {
+    readonly patch: string | null;
+    readonly queue: string | null;
+    readonly tier: string | null;
+    readonly region: string | null;
+    readonly excludeRemakes: boolean;
+  };
+}
+
+export interface AiChampionReference {
+  readonly value: string;
+  readonly aliases: readonly string[];
+}
+
+export interface AiItemReference {
+  readonly id: number;
+  readonly aliases: readonly string[];
 }
 
 export interface AiInterpretation {
@@ -537,6 +559,9 @@ export class AnalysisClient {
     question: string;
     currentDsl?: string;
     regions?: readonly { readonly id: string; readonly label: string }[];
+    championReferences?: readonly AiChampionReference[];
+    itemReferences?: readonly AiItemReference[];
+    currentDatasetFilters?: AnalysisDatasetFilters;
   }): Promise<AiDslDraft> {
     const response = await this.fetcher(`${this.baseUrl}/ai/dsl`, {
       method: 'POST',
@@ -545,6 +570,9 @@ export class AnalysisClient {
         question: input.question,
         current_dsl: input.currentDsl ?? null,
         regions: input.regions ?? [],
+        champion_references: input.championReferences ?? [],
+        item_references: input.itemReferences ?? [],
+        current_dataset_filters: input.currentDatasetFilters ?? { excludeRemakes: true },
       }),
     });
     if (!response.ok) throw await this.error(response);

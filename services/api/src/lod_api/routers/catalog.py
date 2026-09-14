@@ -53,7 +53,7 @@ def get_catalog(response: Response) -> dict[str, Any]:
         }
         for region in preset_regions().values()
     ]
-    data.update(_dataset_facets())
+    data.update(dataset_facets())
     if settings.public_instance:
         _redact_public_catalog(data)
     return data
@@ -73,7 +73,7 @@ def _redact_public_catalog(data: dict[str, Any]) -> None:
                 definition.pop("table", None)
 
 
-def _dataset_facets() -> dict[str, list[Any]]:
+def dataset_facets() -> dict[str, list[Any]]:
     """Return only picker values that are present in the current snapshot."""
     con = cursor()
     try:

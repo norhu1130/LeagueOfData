@@ -17,7 +17,7 @@ import type {
   TableContract,
 } from './types.js';
 
-export const CATALOG_VERSION = '2026.09.11';
+export const CATALOG_VERSION = '2026.09.12';
 
 /** Complete set of logical tables available to generated SQL. */
 export const TABLES: Record<string, TableContract> = {

@@ -430,6 +430,13 @@ test('enables optional AI drafting and grounded result interpretation without st
         dsl: 'ANALYZE team\nWHEN team.first_blood\nRETURN win_rate()',
         titleKo: '퍼스트 블러드 팀 승률',
         explanationKo: '조건을 만족한 팀의 관찰 승률을 계산합니다.',
+        datasetFilters: {
+          patch: null,
+          queue: null,
+          tier: null,
+          region: null,
+          excludeRemakes: true,
+        },
       }),
     });
   });

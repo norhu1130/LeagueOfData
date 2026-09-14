@@ -20,6 +20,7 @@ import { EVENTS } from './events.js';
 import { FUNCTIONS, GROUP_KEYS } from './functions.js';
 import { DSL_LANGUAGE } from './language.js';
 import { SUBJECT_FIELDS } from './subject-fields.js';
+import { AI_RECIPES } from './ai-recipes.js';
 import type { Catalog, EventDef, FunctionDef, GrainId } from './types.js';
 
 export * from './types.js';
@@ -57,6 +58,7 @@ const body = {
   functions: FUNCTIONS,
   groupKeys: GROUP_KEYS,
   dslLanguage: DSL_LANGUAGE,
+  aiRecipes: AI_RECIPES,
   diagnostics: DIAGNOSTICS,
   forbiddenPhrases: FORBIDDEN_PHRASES,
 };

@@ -89,7 +89,11 @@ import { restoreStoredDocument } from './stored-document.js';
 import { parseRoute, routePath, type AppRoute } from './routes.js';
 import { DEFAULT_PANEL_WIDTHS } from './layout/panel-layout.js';
 import { useResizablePanels } from './layout/useResizablePanels.js';
-import { useItemMetadata } from './features/useItemMetadata.js';
+import { questionScopedItemReferences, useItemMetadata } from './features/useItemMetadata.js';
+import {
+  questionScopedChampionReferences,
+  useChampionMetadata,
+} from './features/useChampionMetadata.js';
 import { useAnalysisRun } from './features/useAnalysisRun.js';
 import { useDataSources } from './features/useDataSources.js';
 
@@ -217,6 +221,10 @@ export function App() {
   const itemOptions = useItemMetadata(
     effectiveCatalog?.patches ?? [],
     effectiveCatalog?.items ?? [],
+  );
+  const championMetadata = useChampionMetadata(
+    effectiveCatalog?.patches ?? [],
+    effectiveCatalog?.champions ?? [],
   );
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = colorTheme;
@@ -931,6 +939,9 @@ export function App() {
         question,
         currentDsl: sync.dslText,
         regions: regions.map((region) => ({ id: region.id, label: region.label })),
+        championReferences: questionScopedChampionReferences(question, championMetadata),
+        itemReferences: questionScopedItemReferences(question, itemOptions),
+        currentDatasetFilters: datasetFilters,
       });
       if (!draft.dsl.trim())
         throw new Error(draft.explanationKo || '이 질문은 아직 DSL로 만들 수 없습니다.');
@@ -951,6 +962,13 @@ export function App() {
       }
       invalidateCurrentResult();
       setSync(createSyncDocument(parsed.ast, draft.dsl));
+      applyDatasetFilters({
+        ...(draft.datasetFilters.patch ? { patch: draft.datasetFilters.patch } : {}),
+        ...(draft.datasetFilters.queue ? { queue: draft.datasetFilters.queue } : {}),
+        ...(draft.datasetFilters.tier ? { tier: draft.datasetFilters.tier } : {}),
+        ...(draft.datasetFilters.region ? { region: draft.datasetFilters.region } : {}),
+        excludeRemakes: draft.datasetFilters.excludeRemakes,
+      });
       if (draft.titleKo.trim()) setTitle(draft.titleKo.trim());
       setActiveExampleId(null);
       setAiComposerOpen(false);

@@ -155,7 +155,8 @@ export const DSL_LANGUAGE: DslLanguageSpec = {
       aiGenerate: true,
       constraints: [
         'Opponent presence works at team or player grain; ally and role matchup conditions use player grain.',
-        'Returns true when at least one opposing-team participant selected one of the supplied champion names.',
+        'One opponent_has_champion call returns true when any supplied champion is present (OR semantics).',
+        'To require multiple opposing champions together, join one opponent_has_champion call per champion with AND.',
         'Use exact dataset champion names supplied in the capability manifest.',
       ],
     },

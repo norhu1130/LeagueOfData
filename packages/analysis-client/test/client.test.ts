@@ -399,16 +399,33 @@ describe('AnalysisClient', () => {
     const client = new AnalysisClient('/api/v1', (async (_input, init) => {
       body = JSON.parse(String(init?.body)) as Record<string, unknown>;
       return new Response(
-        JSON.stringify({ dsl: 'RETURN count()', titleKo: '개수', explanationKo: '개수입니다.' }),
+        JSON.stringify({
+          dsl: 'RETURN count()',
+          titleKo: '개수',
+          explanationKo: '개수입니다.',
+          datasetFilters: {
+            patch: null,
+            queue: null,
+            tier: null,
+            region: null,
+            excludeRemakes: true,
+          },
+        }),
       );
     }) as typeof fetch);
 
     await client.generateDsl({
       question: '탑 강가 사용자 영역의 사건 수',
       regions: [{ id: 'custom_top_river', label: '탑 강가 사용자 영역' }],
+      championReferences: [{ value: 'Ashe', aliases: ['애쉬'] }],
+      itemReferences: [{ id: 3157, aliases: ['존야의 모래시계'] }],
+      currentDatasetFilters: { patch: '16.19', excludeRemakes: false },
     });
 
     expect(body.regions).toEqual([{ id: 'custom_top_river', label: '탑 강가 사용자 영역' }]);
+    expect(body.champion_references).toEqual([{ value: 'Ashe', aliases: ['애쉬'] }]);
+    expect(body.item_references).toEqual([{ id: 3157, aliases: ['존야의 모래시계'] }]);
+    expect(body.current_dataset_filters).toEqual({ patch: '16.19', excludeRemakes: false });
   });
 
   it('removes map points and limits result rows before requesting AI interpretation', async () => {

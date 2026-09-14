@@ -246,6 +246,12 @@ export interface DiagnosticDef {
   readonly bodyKo: string;
 }
 
+export interface AiRecipeDef {
+  readonly id: string;
+  readonly intentKo: string;
+  readonly dsl: string;
+}
+
 export interface Catalog {
   readonly catalogVersion: string;
   /** Content hash. Requests are rejected when frontend and backend catalog hashes differ. */
@@ -261,6 +267,7 @@ export interface Catalog {
   readonly functions: Readonly<Record<string, FunctionDef>>;
   readonly groupKeys: Readonly<Record<string, GroupKeyDef>>;
   readonly dslLanguage: DslLanguageSpec;
+  readonly aiRecipes: readonly AiRecipeDef[];
   readonly diagnostics: Readonly<Record<string, DiagnosticDef>>;
   /** Causal phrases that must never appear in result copy (§23). */
   readonly forbiddenPhrases: readonly string[];

@@ -64,7 +64,12 @@ Rules:
     `player.champion = "A"` and require the other with `ally_has_champion("B")`. For three or more
     champions, add one `ally_has_champion(...)` condition per additional champion. Never report
     this request as unsupported when every champion resolves to a dataset value.
-12. Expand named item concepts only from semanticItemGroups. "치감" and "치유 감소" mean the
+    `resolvedChampionMentions` contains question-scoped localized names verified by the server;
+    use its exact `value`. One `opponent_has_champion("A", "B")` call means A OR B. To require
+    both, write `opponent_has_champion("A") AND opponent_has_champion("B")`.
+12. `resolvedItemMentions` contains question-scoped item names verified by the server; use the
+    corresponding numeric `id` and never invent an item ID. Expand named item concepts only from
+    semanticItemGroups. "치감" and "치유 감소" mean the
     `grievous_wounds` group. For an explicit cutoff use
     `purchased_item_by(15:00, <item IDs>)`; for inventory held at a landmark use
     `owns_item_at(15:00, <item IDs>)`. Both return true when any supplied item matches, so wrap the
@@ -73,6 +78,14 @@ Rules:
 13. A legacy `item_purchase.item IN (...)` predicate means "purchased at least once during the
     whole match" and carries reverse-causality risk. Prefer point-in-time functions whenever the
     question supplies a cutoff or when a fixed 15-minute landmark is a faithful clarification.
+14. Patch, queue/game mode, tier, platform region, and remake exclusion are dataset filters outside
+    the DSL. Return them in `datasetFilters`. Preserve `currentDatasetFilters` unless the user
+    explicitly asks to change one. Select only a value listed in `datasetFilterOptions`; use null
+    for "all". Never imitate these filters with a DSL predicate.
+15. Use `aiRecipes` as executable patterns. Choose measures by denominator: `pick_rate()` is the
+    share of matches containing a champion, `role_pick_rate()` is the share of slots in one role,
+    `win_rate()` is among units remaining after conditions, and chain `success_rate()` keeps every
+    trigger event in its denominator.
 
 Clause order:
 ANALYZE <match|team|blue|red|player>
@@ -165,8 +178,20 @@ DSL_RESPONSE_SCHEMA: dict[str, Any] = {
             "dsl": {"type": "string"},
             "titleKo": {"type": "string"},
             "explanationKo": {"type": "string"},
+            "datasetFilters": {
+                "type": "object",
+                "properties": {
+                    "patch": {"type": ["string", "null"]},
+                    "queue": {"type": ["string", "null"]},
+                    "tier": {"type": ["string", "null"]},
+                    "region": {"type": ["string", "null"]},
+                    "excludeRemakes": {"type": "boolean"},
+                },
+                "required": ["patch", "queue", "tier", "region", "excludeRemakes"],
+                "additionalProperties": False,
+            },
         },
-        "required": ["dsl", "titleKo", "explanationKo"],
+        "required": ["dsl", "titleKo", "explanationKo", "datasetFilters"],
         "additionalProperties": False,
     },
 }
@@ -347,6 +372,7 @@ def dsl_catalog_context() -> dict[str, Any]:
     return {
         "datasetSource": raw.get("datasetSource"),
         "language": raw["dslLanguage"],
+        "aiRecipes": raw.get("aiRecipes", []),
         "grains": [
             {
                 "id": grain["id"],

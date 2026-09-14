@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any
+import re
+from typing import Annotated, Any
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, ValidationError
@@ -17,6 +18,7 @@ from lod_api.ai import (
     dsl_system_prompt,
 )
 from lod_api.config import settings
+from lod_api.routers.catalog import dataset_facets
 
 router = APIRouter(prefix="/api/v1/ai", tags=["ai"])
 
@@ -32,11 +34,39 @@ class RegionReference(BaseModel):
     label: str = Field(min_length=1, max_length=200)
 
 
+class ChampionReference(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    value: str = Field(min_length=1, max_length=100)
+    aliases: list[Annotated[str, Field(min_length=1, max_length=100)]] = Field(
+        min_length=1, max_length=8
+    )
+
+
+class ItemReference(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: int = Field(ge=1, le=1_000_000)
+    aliases: list[Annotated[str, Field(min_length=1, max_length=200)]] = Field(
+        min_length=1, max_length=8
+    )
+
+
+class DatasetFilters(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    patch: str | None = Field(default=None, max_length=40)
+    queue: str | None = Field(default=None, max_length=80)
+    tier: str | None = Field(default=None, max_length=40)
+    region: str | None = Field(default=None, max_length=40)
+    excludeRemakes: bool = True
+
+
 class DslGenerationRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     question: str = Field(min_length=3, max_length=4_000)
     current_dsl: str | None = Field(default=None, max_length=32_000)
     regions: list[RegionReference] = Field(default_factory=list, max_length=64)
+    champion_references: list[ChampionReference] = Field(default_factory=list, max_length=32)
+    item_references: list[ItemReference] = Field(default_factory=list, max_length=32)
+    current_dataset_filters: DatasetFilters = Field(default_factory=DatasetFilters)
 
 
 class InterpretationRequest(BaseModel):
@@ -51,6 +81,7 @@ class DslGenerationResponse(BaseModel):
     dsl: str = Field(max_length=32_000)
     titleKo: str = Field(max_length=200)
     explanationKo: str = Field(max_length=2_000)
+    datasetFilters: DatasetFilters
 
 
 class InterpretationResponse(BaseModel):
@@ -124,6 +155,61 @@ def _safe_analysis_result(result: dict[str, Any], dataset_source: str | None) ->
     }
 
 
+def _mention_matches(question: str, aliases: list[str]) -> bool:
+    for raw_alias in aliases:
+        alias = raw_alias.strip()
+        if not alias:
+            continue
+        if alias.isascii() and re.fullmatch(r"[A-Za-z0-9_]+", alias):
+            if re.search(rf"(?<![A-Za-z0-9_]){re.escape(alias)}(?![A-Za-z0-9_])", question, re.I):
+                return True
+        elif alias.casefold() in question.casefold():
+            return True
+    return False
+
+
+def _ground_mentions(
+    request: DslGenerationRequest, facets: dict[str, list[Any]]
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    champions = {entry["name"] for entry in facets["champions"]}
+    item_ids = {entry["id"] for entry in facets["items"]}
+    champion_mentions = [
+        reference.model_dump()
+        for reference in request.champion_references
+        if reference.value in champions
+        and _mention_matches(request.question, [reference.value, *reference.aliases])
+    ]
+    item_mentions = [
+        reference.model_dump()
+        for reference in request.item_references
+        if reference.id in item_ids
+        and _mention_matches(request.question, [str(reference.id), *reference.aliases])
+    ]
+    return champion_mentions, item_mentions
+
+
+def _filter_options(facets: dict[str, list[Any]]) -> dict[str, list[str]]:
+    return {
+        "patches": facets["patches"],
+        "queues": facets["queues"],
+        "tiers": facets["tiers"],
+        "regions": facets["platformRegions"],
+    }
+
+
+def _validate_generated_filters(filters: DatasetFilters, options: dict[str, list[str]]) -> None:
+    selected = {
+        "patch": (filters.patch, options["patches"]),
+        "queue": (filters.queue, options["queues"]),
+        "tier": (filters.tier, options["tiers"]),
+        "region": (filters.region, options["regions"]),
+    }
+    if any(value is not None and value not in allowed for value, allowed in selected.values()):
+        raise AiProviderError(
+            "AI가 현재 데이터셋에 없는 필터 값을 반환했습니다. 다시 시도해 주세요."
+        )
+
+
 @router.get("/status")
 def ai_status() -> dict[str, Any]:
     return _status()
@@ -148,10 +234,17 @@ def clear_ai_config() -> dict[str, Any]:
 
 @router.post("/dsl")
 async def generate_dsl(request: DslGenerationRequest) -> dict[str, Any]:
+    facets = dataset_facets()
+    champion_mentions, item_mentions = _ground_mentions(request, facets)
+    filter_options = _filter_options(facets)
     payload = {
         "question": request.question,
         "currentDsl": request.current_dsl,
         "regions": [region.model_dump() for region in request.regions],
+        "resolvedChampionMentions": champion_mentions,
+        "resolvedItemMentions": item_mentions,
+        "currentDatasetFilters": request.current_dataset_filters.model_dump(),
+        "datasetFilterOptions": filter_options,
     }
     try:
         generated = await ai_gateway.complete(
@@ -160,7 +253,9 @@ async def generate_dsl(request: DslGenerationRequest) -> dict[str, Any]:
             response_schema=DSL_RESPONSE_SCHEMA,
             max_tokens=2_000,
         )
-        return DslGenerationResponse.model_validate(generated).model_dump()
+        response = DslGenerationResponse.model_validate(generated)
+        _validate_generated_filters(response.datasetFilters, filter_options)
+        return response.model_dump()
     except (AiUnavailableError, AiProviderError, ValidationError) as error:
         raise _provider_error(error) from error
 

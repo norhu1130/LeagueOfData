@@ -115,6 +115,13 @@ def test_dsl_generation_supplies_catalog_and_returns_structured_output(
             ),
             "titleKo": "와드 설치 후 상대팀 바론 처치 비율",
             "explanationKo": "두 사건의 관찰된 연결 비율을 계산합니다.",
+            "datasetFilters": {
+                "patch": None,
+                "queue": None,
+                "tier": None,
+                "region": None,
+                "excludeRemakes": True,
+            },
         }
 
     monkeypatch.setattr(ai_gateway, "complete", complete)
@@ -158,6 +165,119 @@ def test_ai_prompt_teaches_same_team_champion_combinations() -> None:
 
     assert 'player.champion = "Ashe" AND ally_has_champion("Seraphine")' in prompt
     assert "A missing alias alone never makes a champion" in prompt
+    assert 'opponent_has_champion("A") AND opponent_has_champion("B")' in prompt
+    assert '"id":"champion_overview"' in prompt
+
+
+def test_dsl_generation_grounds_only_question_mentions_and_dataset_filters(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from lod_api.routers import ai as ai_router
+
+    facets = {
+        "champions": [
+            {"id": 22, "name": "Ashe"},
+            {"id": 147, "name": "Seraphine"},
+            {"id": 497, "name": "Rakan"},
+        ],
+        "items": [{"id": 3157}, {"id": 3089}],
+        "patches": ["16.19"],
+        "queues": ["CLASSIC"],
+        "tiers": ["GOLD"],
+        "platformRegions": ["KR"],
+    }
+    monkeypatch.setattr(ai_router, "dataset_facets", lambda: facets)
+    captured: dict[str, Any] = {}
+
+    async def complete(**kwargs: Any) -> dict[str, Any]:
+        captured.update(kwargs)
+        return {
+            "dsl": (
+                'ANALYZE player WHEN player.champion = "Ashe" '
+                'AND ally_has_champion("Seraphine") RETURN win_rate(), count()'
+            ),
+            "titleKo": "애쉬 세라핀 조합 승률",
+            "explanationKo": "같은 팀 조합에서 관찰된 승률입니다.",
+            "datasetFilters": {
+                "patch": "16.19",
+                "queue": None,
+                "tier": None,
+                "region": "KR",
+                "excludeRemakes": True,
+            },
+        }
+
+    monkeypatch.setattr(ai_gateway, "complete", complete)
+    ai_gateway.configure_session("sk-or-v1-test-secret-key")
+    response = TestClient(create_app()).post(
+        "/api/v1/ai/dsl",
+        json={
+            "question": "16.19 KR 애쉬 세라핀 조합 승률",
+            "champion_references": [
+                {"value": "Ashe", "aliases": ["애쉬"]},
+                {"value": "Seraphine", "aliases": ["세라핀"]},
+                {"value": "Rakan", "aliases": ["라칸"]},
+                {"value": "Invented", "aliases": ["애쉬"]},
+            ],
+            "item_references": [
+                {"id": 3157, "aliases": ["존야의 모래시계"]},
+                {"id": 999999, "aliases": ["애쉬"]},
+            ],
+            "current_dataset_filters": {"excludeRemakes": True},
+        },
+    )
+
+    assert response.status_code == 200
+    payload = captured["input_payload"]
+    assert [entry["value"] for entry in payload["resolvedChampionMentions"]] == [
+        "Ashe",
+        "Seraphine",
+    ]
+    assert payload["resolvedItemMentions"] == []
+    assert payload["datasetFilterOptions"]["patches"] == ["16.19"]
+    assert response.json()["datasetFilters"]["region"] == "KR"
+
+
+def test_dsl_generation_rejects_ai_filter_not_present_in_dataset(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from lod_api.routers import ai as ai_router
+
+    monkeypatch.setattr(
+        ai_router,
+        "dataset_facets",
+        lambda: {
+            "champions": [],
+            "items": [],
+            "patches": ["16.19"],
+            "queues": [],
+            "tiers": [],
+            "platformRegions": [],
+        },
+    )
+
+    async def complete(**_kwargs: Any) -> dict[str, Any]:
+        return {
+            "dsl": "RETURN count()",
+            "titleKo": "경기 수",
+            "explanationKo": "경기 수입니다.",
+            "datasetFilters": {
+                "patch": "99.99",
+                "queue": None,
+                "tier": None,
+                "region": None,
+                "excludeRemakes": True,
+            },
+        }
+
+    monkeypatch.setattr(ai_gateway, "complete", complete)
+    ai_gateway.configure_session("sk-or-v1-test-secret-key")
+    response = TestClient(create_app()).post(
+        "/api/v1/ai/dsl", json={"question": "99.99 패치 경기 수"}
+    )
+
+    assert response.status_code == 502
+    assert "없는 필터" in response.json()["detail"]
 
 
 def test_dsl_generation_rejects_invalid_region_identifiers() -> None:
