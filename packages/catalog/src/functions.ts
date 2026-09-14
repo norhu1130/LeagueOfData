@@ -60,7 +60,8 @@ export const FUNCTIONS: Record<string, FunctionDef> = {
   ally_has_champion: {
     id: 'ally_has_champion',
     labelKo: '아군 챔피언 포함',
-    descriptionKo: '같은 팀의 다른 선수가 지정한 챔피언을 선택했는지 확인합니다.',
+    descriptionKo:
+      '선수 분석에서 기준 챔피언과 같은 팀의 다른 선수가 지정한 챔피언을 선택했는지 확인합니다. 같은 팀 챔피언 조합 승률에 사용합니다.',
     kind: 'scalar',
     params: [{ name: 'champion', labelKo: '챔피언', type: 'string' }],
     returns: 'bool',

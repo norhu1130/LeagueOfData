@@ -14,6 +14,7 @@ from lod_api.ai import (
     AiProviderError,
     ai_gateway,
     dsl_catalog_context,
+    dsl_system_prompt,
 )
 from lod_api.config import settings
 from lod_api.main import create_app
@@ -150,6 +151,13 @@ def test_ai_catalog_exposes_grounded_champion_aliases_and_grievous_wounds_items(
     assert {item["id"] for item in group["items"]}.issubset(
         {3011, 3033, 3075, 3076, 3123, 3165, 3916, 6609}
     )
+
+
+def test_ai_prompt_teaches_same_team_champion_combinations() -> None:
+    prompt = dsl_system_prompt()
+
+    assert 'player.champion = "Ashe" AND ally_has_champion("Seraphine")' in prompt
+    assert "A missing alias alone never makes a champion" in prompt
 
 
 def test_dsl_generation_rejects_invalid_region_identifiers() -> None:
