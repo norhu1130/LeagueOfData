@@ -35,8 +35,16 @@ _RIOT_UNAVAILABLE_CONTEXTS = {
 }
 
 
-def _default_path() -> Path:
-    return Path(__file__).resolve().parents[4] / "data" / "reference" / "catalog.json"
+def _default_path() -> Path | None:
+    """Return the generated source-tree catalog only when running in this repository."""
+    module = Path(__file__).resolve()
+    try:
+        root = module.parents[4]
+    except IndexError:
+        return None
+    if not (root / "pnpm-workspace.yaml").is_file():
+        return None
+    return root / "data" / "reference" / "catalog.json"
 
 
 @dataclass(frozen=True, slots=True)
@@ -217,7 +225,7 @@ def _load_catalog_file(path: str, mtime_ns: int, size: int) -> Catalog:
 
 def load_catalog(path: Path | None = None) -> Catalog:
     generated = path or _default_path()
-    if generated.exists():
+    if generated is not None and generated.exists():
         resolved = generated.resolve()
         stat = resolved.stat()
         return _load_catalog_file(str(resolved), stat.st_mtime_ns, stat.st_size)
@@ -225,7 +233,8 @@ def load_catalog(path: Path | None = None) -> Catalog:
     bundled = resources.files("lod_api").joinpath("catalog.json")
     if not bundled.is_file():
         raise FileNotFoundError(
-            f"{generated} does not exist and the package has no bundled catalog. "
+            "The generated repository catalog is unavailable and the package has no bundled "
+            "catalog.json. "
             "Run `pnpm -F @lol/catalog build:json` before building."
         )
     return Catalog(json.loads(bundled.read_text(encoding="utf-8")))

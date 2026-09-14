@@ -14,12 +14,19 @@ from pathlib import Path
 from typing import Any, Literal
 
 
-def _repo_root() -> Path:
-    # Walk four levels from the module directory to the package root.
-    return Path(__file__).resolve().parents[4]
+def _repository_reference_path() -> Path | None:
+    """Return the generated source-tree reference only when running in this repository."""
+    module = Path(__file__).resolve()
+    try:
+        root = module.parents[4]
+    except IndexError:
+        return None
+    if not (root / "pnpm-workspace.yaml").is_file():
+        return None
+    return root / "data" / "reference" / "regions_builtin.json"
 
 
-REFERENCE_PATH = _repo_root() / "data" / "reference" / "regions_builtin.json"
+REFERENCE_PATH = _repository_reference_path()
 
 CoordSpace = Literal["norm-v1"]
 
@@ -46,13 +53,14 @@ def load_reference() -> dict[str, Any]:
     """Load generated reference data and verify coordinate constants."""
     from . import coords
 
-    if REFERENCE_PATH.exists():
+    if REFERENCE_PATH is not None and REFERENCE_PATH.exists():
         raw = REFERENCE_PATH.read_text(encoding="utf-8")
     else:
         bundled = resources.files("lod_data").joinpath("regions_builtin.json")
         if not bundled.is_file():
             raise FileNotFoundError(
-                f"{REFERENCE_PATH} does not exist and the package has no bundled reference. "
+                "The generated repository reference is unavailable and the package has no "
+                "bundled regions_builtin.json. "
                 "Run `pnpm -F @lol/data-model export-reference` before building."
             )
         raw = bundled.read_text(encoding="utf-8")
